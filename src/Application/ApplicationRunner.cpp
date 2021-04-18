@@ -19,3 +19,8 @@ void ApplicationRunner::terminate()
 {	// For terminating the application
 	m_running = false;
 }
+
+ApplicationState::ApplicationState(ApplicationRunner* _runner)
+	: RunState(_runner) {
+	application = _runner;
+}
