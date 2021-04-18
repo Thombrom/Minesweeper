@@ -11,7 +11,7 @@ workspace "Minesweeper"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 project "Minesweeper"
-	location "Minesweeper"
+	location "src"
 	kind "ConsoleApp"
 	language "C++"
 
@@ -21,7 +21,25 @@ project "Minesweeper"
 	files
 	{
 		"src/**.h",
-		"src/**.cpp"
+		"src/**.cpp",
+		"vendor/glad/src/**.c"
+	}
+
+	libdirs 
+	{
+		"vendor/glfw/lib"
+	}
+
+	links {
+		"opengl32",
+		"glfw3"
+	}
+
+	includedirs
+	{
+		"src",
+		"vendor/glfw",
+		"vendor/glad/include"
 	}
 
 	filter "system:windows"
@@ -34,10 +52,12 @@ project "Minesweeper"
 			"MINESWEEPER_PLATFORM_WINDOWS"
 		}
 
-	filter "configurations:Debug"
-		defines "MINESWEEPER_DEBUG"
-		symbols "On"
+		filter "configurations:Debug"
+			defines "MINESWEEPER_DEBUG"
+			symbols "On"
+			staticruntime  "default"
 	
-	filter "configurations:Release"
-		defines "MINESWEEPER_RELEASE"
-		optimize "On"
+		filter "configurations:Release"
+			defines "MINESWEEPER_RELEASE"
+			optimize "On"
+			staticruntime  "default"
