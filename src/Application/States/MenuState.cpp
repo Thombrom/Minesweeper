@@ -5,17 +5,17 @@
 MenuState::MenuState(ApplicationRunner* _runner)
 	: ApplicationState(_runner)
 {
-	std::cout << "Initialized menu state" << std::endl;
+	
 }
 
 void MenuState::execute()
 {
-	std::cout << "Test Execute" << std::endl;
+	
 }
 
 void MenuState::update_state()
 {
-	std::cout << "Test Update" << std::endl;
+	
 }
 
 void MenuState::on_event(Event& _event)

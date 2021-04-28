@@ -48,3 +48,6 @@ public:
 protected:
 	ApplicationRunner* application;
 };
+
+#include "States/GameState.h"
+#include "States/MenuState.h"

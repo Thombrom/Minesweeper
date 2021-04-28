@@ -32,6 +32,7 @@ enum EventCategory
 	class
 */
 
+#define BIND_EVENT_FN(function) std::bind(&function, this, std::placeholders::_1)
 #define EVENT_CLASS_CATEGORY(eventclass) virtual int get_category_flags() const override { return eventclass; }
 #define EVENT_CLASS_TYPE(eventtype) static EventType StaticType() { return eventtype; };\
 										virtual const char* get_name() const override { return #eventtype; }; \
@@ -62,11 +63,11 @@ public:
 	EventDispatcher(Event& _event)
 		: m_event(&_event) {};
 
-	template<typename EventType>
-	bool execute(void(*_function)(Event& _event)) {
+	template<typename EventType, typename EventFunc>
+	bool execute(EventFunc _function) {
 		if (m_event->get_event_type() == EventType::StaticType())
 		{
-			_function(*m_event);
+			_function(static_cast<EventType&>(*m_event));
 			return true;
 		}
 		return false;

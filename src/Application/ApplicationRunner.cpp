@@ -13,7 +13,6 @@ ApplicationRunner::~ApplicationRunner()
 
 void ApplicationRunner::on_event(Event& _event)
 {
-	std::cout << "Application Caputured Event" << std::endl;
 	get_state()->on_event(_event);
 }
 
