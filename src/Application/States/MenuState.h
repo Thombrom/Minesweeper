@@ -13,6 +13,8 @@ class MenuState : public ApplicationState
 public:
 	MenuState(ApplicationRunner* _runner);
 
+	void on_event(Event& _event);
+
 	void update_state();
 	void execute();
 };

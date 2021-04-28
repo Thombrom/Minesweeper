@@ -37,6 +37,7 @@ void Runner::execute()
 {
 	if (!m_state)
 		return;
+	internal_execute();
 	m_state->execute();
 }
 

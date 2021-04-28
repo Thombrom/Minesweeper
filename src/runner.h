@@ -25,8 +25,10 @@ public:
 
 	void setState(RunState* _state);
 	void update();
+
+	virtual void internal_execute() {};
 	void execute();
 
-private:
+protected:
 	RunState* m_state;
 };
