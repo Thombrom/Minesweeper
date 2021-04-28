@@ -2,11 +2,25 @@
 #include <iostream>
 
 /*
-	Enum for the different event types
+	Enum for the different event types and
+	event categories. Adopted from Hazel Engine
 */
-enum EventType
+enum class EventType
 {
-	KeyboardKeyEventType
+	None = 0,
+	WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
+	KeyPressed, KeyReleased, KeyTyped,
+	MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+};
+
+enum EventCategory
+{
+	None = 0,
+	EventCategoryApplication =	1 << 0,
+	EventCategoryInput =		1 << 1,
+	EventCategoryKeyboard =		1 << 2,
+	EventCategoryMouse =		1 << 3,
+	EventCategoryMouseButton =	1 << 4
 };
 
 /*
@@ -17,15 +31,20 @@ enum EventType
 	that event should be in the derived
 	class
 */
+
+#define EVENT_CLASS_CATEGORY(eventclass) virtual int get_category_flags() const override { return eventclass; }
+#define EVENT_CLASS_TYPE(eventtype) static EventType StaticType() { return eventtype; };\
+										virtual const char* get_name() const override { return #eventtype; }; \
+										virtual EventType get_event_type() const override { return eventtype; };
+
 class Event
 {
 public:
-	Event() 
-	{
-		std::cout << "Event Created" << std::endl;
-	}
-
-	virtual EventType get_event_type() = 0;
+	virtual EventType get_event_type() const = 0;
+	virtual const char* get_name() const = 0;
+	virtual int get_category_flags() const = 0;
+	
+	bool is_in_category(EventCategory _category) { return get_category_flags() & _category; }
 };
 
 /*
@@ -43,9 +62,9 @@ public:
 	EventDispatcher(Event& _event)
 		: m_event(&_event) {};
 
-	template<typename EventClass>
+	template<typename EventType>
 	bool execute(void(*_function)(Event& _event)) {
-		if (m_event->get_event_type() == EventClass::Type)
+		if (m_event->get_event_type() == EventType::StaticType())
 		{
 			_function(*m_event);
 			return true;
@@ -57,4 +76,4 @@ protected:
 	Event* m_event;
 };
 
-#include "KeyboardKeyEvent.h"
+#include "KeyEvent.h"

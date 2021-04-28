@@ -10,18 +10,22 @@ MenuState::MenuState(ApplicationRunner* _runner)
 
 void MenuState::execute()
 {
-
+	std::cout << "Test Execute" << std::endl;
 }
 
 void MenuState::update_state()
 {
-
+	std::cout << "Test Update" << std::endl;
 }
 
 void MenuState::on_event(Event& _event)
 {
 	EventDispatcher dispatcher(_event);
-	dispatcher.execute<KeyboardKeyEvent>([](Event& _event)->void {
-		std::cout << "Executing Key Event" << std::endl;
+	dispatcher.execute<KeyPressedEvent>([](Event& _event)->void {
+		std::cout << "Executing Key Pressed Event" << std::endl;
+	});
+
+	dispatcher.execute<KeyReleasedEvent>([](Event& _event)->void {
+		std::cout << "Executing Key Release Event" << std::endl;
 	});
 }

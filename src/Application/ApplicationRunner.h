@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <functional>
 
 #include "../runner.h"
 #include "Window/window.h"

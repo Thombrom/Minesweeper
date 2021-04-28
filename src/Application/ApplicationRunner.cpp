@@ -1,7 +1,5 @@
 #include "ApplicationRunner.h"
 
-#include <functional>
-
 ApplicationRunner::ApplicationRunner()
 	: Runner(), m_running(true) {
 	// Empty
@@ -53,9 +51,19 @@ bool ApplicationRunner::initialize()
 void ApplicationRunner::set_event_hooks()
 {	// Hook events to event system
 	glfwSetKeyCallback(configuration.window->raw_pointer(), [](GLFWwindow* _window, int _key, int _scancode, int _action, int _mods) {
-		std::cout << "Inside GLFW Callback Lambda" << std::endl;
 		WindowUserPointer* user_ptr = (WindowUserPointer*)glfwGetWindowUserPointer(_window);
-		user_ptr->event_callback(KeyboardKeyEvent());
+		
+		if (_action == GLFW_PRESS)
+		{
+			user_ptr->event_callback(KeyPressedEvent(static_cast<KeyCode>(_key), 0));
+			return;
+		}
+
+		if (_action == GLFW_RELEASE)
+		{
+			user_ptr->event_callback(KeyReleasedEvent(static_cast<KeyCode>(_key)));
+			return;
+		}
 	});
 }
 
