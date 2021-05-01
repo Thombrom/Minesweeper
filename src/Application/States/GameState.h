@@ -1,4 +1,6 @@
 #pragma once
+#include <windows.h>
+
 #include "../ApplicationRunner.h"
 
 class GameState : public ApplicationState

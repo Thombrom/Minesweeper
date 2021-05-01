@@ -5,6 +5,8 @@
 	do - this is also the first state served
 	to you when you launch the appliation
 */
+#include <string>
+#include <windows.h>
 
 #include "../ApplicationRunner.h"
 
@@ -14,7 +16,26 @@ public:
 	MenuState(ApplicationRunner* _runner);
 
 	void on_event(Event& _event);
-
 	void update_state();
 	void execute();
+
+private:
+	void draw_menu();
+	void clear_screen();
+
+	void handle_key_pressed(KeyPressedEvent& _event);
+
+private:
+	uint8_t menu_pos;
+	std::string menu_items[3] = {
+		"Play Game",
+		"Statistics",
+		"Exit",
+	};
+
+	enum class MenuItem {
+		PLAY_GAME = 0,
+		STATISTICS = 1,
+		EXIT = 2
+	};
 };
