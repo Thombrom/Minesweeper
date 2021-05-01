@@ -23,7 +23,7 @@ public:
 	Runner(RunState* _state);
 	~Runner();
 
-	void setState(RunState* _state);
+	void set_state(RunState* _state);
 	void update();
 
 	virtual void internal_execute() {};

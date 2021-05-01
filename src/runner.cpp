@@ -28,7 +28,7 @@ Runner::~Runner()
 	delete m_state;
 }
 
-void Runner::setState(RunState* _state)
+void Runner::set_state(RunState* _state)
 {
 	m_state = _state;
 }
