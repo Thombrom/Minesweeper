@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <functional>
+#include <time.h>
 
 #include "../runner.h"
 #include "Window/window.h"
@@ -44,6 +45,9 @@ public:
 	ApplicationState(ApplicationRunner* _runner);
 
 	virtual void on_event(Event& _event) = 0;
+
+	void clear_screen();
+	void set_cursor(uint32_t _x, uint32_t _y);
 
 protected:
 	ApplicationRunner* application;

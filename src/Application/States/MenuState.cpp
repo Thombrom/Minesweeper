@@ -51,7 +51,7 @@ void MenuState::handle_key_pressed(KeyPressedEvent& _event)
 		// If on 'Play Game' go to game state
 		if (menu_pos == static_cast<uint8_t>(MenuItem::PLAY_GAME))
 		{
-			application->set_state(new GameState(application));
+			application->set_state(new GameState(application, 10, 10, 10));
 			return;
 		}
 

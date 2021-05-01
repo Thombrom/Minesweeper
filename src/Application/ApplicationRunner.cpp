@@ -44,6 +44,10 @@ bool ApplicationRunner::initialize()
 	configuration.window->set_event_callback(event_callback);
 
 	set_event_hooks();
+
+	// Other setups
+	srand(time(NULL));
+
 	return true;
 }
 
@@ -97,4 +101,36 @@ void ApplicationRunner::terminate()
 ApplicationState::ApplicationState(ApplicationRunner* _runner)
 	: RunState(_runner) {
 	application = _runner;
+}
+
+void ApplicationState::clear_screen()
+{
+	// Clear screen
+	// https://stackoverflow.com/questions/6486289/how-can-i-clear-console
+	COORD topLeft = { 0, 0 };
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO screen;
+	DWORD written;
+
+	GetConsoleScreenBufferInfo(console, &screen);
+	FillConsoleOutputCharacterA(
+		console, ' ', screen.dwSize.X * screen.dwSize.Y, topLeft, &written
+	);
+	FillConsoleOutputAttribute(
+		console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE,
+		screen.dwSize.X * screen.dwSize.Y, topLeft, &written
+	);
+	SetConsoleCursorPosition(console, topLeft);
+}
+
+void ApplicationState::set_cursor(uint32_t _x, uint32_t _y)
+{
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO screen;
+
+	GetConsoleScreenBufferInfo(console, &screen);
+	if (_x >= screen.dwSize.X || _y >= screen.dwSize.Y)
+		return;	// Don't draw outside buffer
+
+	SetConsoleCursorPosition(console, COORD{ (SHORT)_x, (SHORT)_y });
 }
