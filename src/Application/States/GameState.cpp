@@ -20,14 +20,14 @@ void GameState::update_state()
 {
 	if (game.get_state() == SweeperState::WON)
 	{
-		set_cursor(0, 20);
-		std::cout << "YOU WON THE GAME!" << std::endl;
+		application->set_state(new GameWonState(application));
+		return;
 	}
 
 	if (game.get_state() == SweeperState::LOST)
 	{
-		set_cursor(0, 20);
-		std::cout << "YOU LOST THE GAME" << std::endl;
+		application->set_state(new GameLostState(application));
+		return;
 	}
 }
 

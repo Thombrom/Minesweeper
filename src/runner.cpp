@@ -37,8 +37,9 @@ void Runner::execute()
 {
 	if (!m_state)
 		return;
-	internal_execute();
+	internal_execute_before();
 	m_state->execute();
+	internal_execute_after();
 }
 
 void Runner::update()

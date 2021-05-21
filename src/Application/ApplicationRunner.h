@@ -27,7 +27,9 @@ public:
 
 	bool is_running();
 	void terminate();
-	void internal_execute();
+	void internal_execute_before();
+	void internal_execute_after();
+
 	ApplicationState* get_state();
 
 	ApplicationConfiguration configuration;
@@ -55,3 +57,5 @@ protected:
 
 #include "States/GameState.h"
 #include "States/MenuState.h"
+#include "States/GameLostState.h"
+#include "States/GameWonState.h"

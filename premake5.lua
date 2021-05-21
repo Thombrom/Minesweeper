@@ -27,19 +27,23 @@ project "Minesweeper"
 
 	libdirs 
 	{
-		"vendor/glfw/lib"
+		"vendor/glfw/lib",
+		"vendor/freetype/lib"
 	}
 
 	links {
 		"opengl32",
-		"glfw3"
+		"glfw3",
+		"freetyped"
 	}
 
 	includedirs
 	{
 		"src",
 		"vendor/glfw",
-		"vendor/glad/include"
+		"vendor/glad/include",
+		"vendor/freetype/include",
+		"vendor/glm/include"
 	}
 
 	filter "system:windows"

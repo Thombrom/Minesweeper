@@ -1,20 +1,22 @@
 #include "MenuState.h"
 
-#include <iostream>
-
 MenuState::MenuState(ApplicationRunner* _runner)
 	: ApplicationState(_runner)
 {
 	std::cout << "Welcome to the Minesweeper Game!" << std::endl;
 	menu_pos = 0;
 	
-	clear_screen();
-	draw_menu();
+	//clear_screen();
+	//draw_menu();
+
+	// OPENGL TESTING
+	font.load("resources/fonts/arial.ttf");
 }
 
 void MenuState::execute()
 {
 	// Honestly nothing here
+	font.render_text("This is a test", 25.0f, 25.0f, 1.0f, glm::vec3(0.5f, 0.8f, 0.2f));
 }
 
 void MenuState::update_state()
@@ -33,16 +35,16 @@ void MenuState::handle_key_pressed(KeyPressedEvent& _event)
 	// Move item pointer one up
 	if (_event.get_key_code() == KeyCode::Up) {
 		menu_pos = (menu_pos - 1) % (sizeof(menu_items) / sizeof(std::string));
-		clear_screen();
-		draw_menu();
+		//clear_screen();
+		//draw_menu();
 		return;
 	}
 
 	// Move item pointer one down
 	if (_event.get_key_code() == KeyCode::Down) {
 		menu_pos = (menu_pos + 1) % (sizeof(menu_items) / sizeof(std::string));
-		clear_screen();
-		draw_menu();
+		//clear_screen();
+		//draw_menu();
 		return;
 	}
 
@@ -69,26 +71,6 @@ void MenuState::handle_key_pressed(KeyPressedEvent& _event)
 			return;
 		}
 	}
-}
-
-void MenuState::clear_screen()
-{
-	// Clear screen
-	// https://stackoverflow.com/questions/6486289/how-can-i-clear-console
-	COORD topLeft = { 0, 0 };
-	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_SCREEN_BUFFER_INFO screen;
-	DWORD written;
-
-	GetConsoleScreenBufferInfo(console, &screen);
-	FillConsoleOutputCharacterA(
-		console, ' ', screen.dwSize.X * screen.dwSize.Y, topLeft, &written
-	);
-	FillConsoleOutputAttribute(
-		console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE,
-		screen.dwSize.X * screen.dwSize.Y, topLeft, &written
-	);
-	SetConsoleCursorPosition(console, topLeft);
 }
 
 void MenuState::draw_menu()

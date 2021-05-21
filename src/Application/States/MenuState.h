@@ -6,9 +6,11 @@
 	to you when you launch the appliation
 */
 #include <string>
+#include <iostream>
 #include <windows.h>
 
 #include "../ApplicationRunner.h"
+#include "Render/Font.h"
 
 class MenuState : public ApplicationState
 {	
@@ -21,11 +23,12 @@ public:
 
 private:
 	void draw_menu();
-	void clear_screen();
 
 	void handle_key_pressed(KeyPressedEvent& _event);
 
 private:
+	Font font;
+
 	uint8_t menu_pos;
 	std::string menu_items[3] = {
 		"Play Game",

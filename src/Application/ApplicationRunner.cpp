@@ -39,6 +39,10 @@ bool ApplicationRunner::initialize()
 		return false;
 	}
 
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	// Hook event system
 	std::function<void(Event& _event)> event_callback = std::bind(&ApplicationRunner::on_event, this, std::placeholders::_1);
 	configuration.window->set_event_callback(event_callback);
@@ -75,12 +79,15 @@ bool ApplicationRunner::is_running()
 	return m_running;
 }
 
-void ApplicationRunner::internal_execute()
+void ApplicationRunner::internal_execute_before()
 {	// Internally execute, distribute events
 	// and update window buffer
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
 
+void ApplicationRunner::internal_execute_after()
+{
 	glfwSwapBuffers(configuration.window->raw_pointer());
 	glfwPollEvents();
 

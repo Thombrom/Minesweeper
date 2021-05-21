@@ -26,7 +26,8 @@ public:
 	void set_state(RunState* _state);
 	void update();
 
-	virtual void internal_execute() {};
+	virtual void internal_execute_before() {};
+	virtual void internal_execute_after() {};
 	void execute();
 
 protected:
