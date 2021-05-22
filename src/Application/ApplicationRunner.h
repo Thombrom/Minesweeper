@@ -4,8 +4,8 @@
 #include <time.h>
 
 #include "../runner.h"
-#include "Window/window.h"
 #include "Event/Event.h"
+#include "Platform/window.h"
 
 /* ----------- CONFIGURATION STRUCT FOR STATE MEMORY ----------- */
 struct ApplicationConfiguration

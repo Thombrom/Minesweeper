@@ -46,22 +46,31 @@ project "Minesweeper"
 		"vendor/glm/include"
 	}
 
-	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
-		systemversion "latest"
+	cppdialect "C++17"
+	staticruntime "On"
+	systemversion "latest"
 
+	
+
+	filter "configurations:Debug"
+		defines "MINESWEEPER_DEBUG"
+		symbols "On"
+		staticruntime  "default"
+	
+	filter "configurations:Release"
+		defines "MINESWEEPER_RELEASE"
+		optimize "On"
+		staticruntime  "default"
+
+	filter "system:windows"
 		defines
 		{
 			"MINESWEEPER_PLATFORM_WINDOWS"
 		}
 
-		filter "configurations:Debug"
-			defines "MINESWEEPER_DEBUG"
-			symbols "On"
-			staticruntime  "default"
-	
-		filter "configurations:Release"
-			defines "MINESWEEPER_RELEASE"
-			optimize "On"
-			staticruntime  "default"
+	filter "system:linux"
+		defines
+		{
+			"MINESWEEPER_PLATFORM_LINUX"
+		}
+		

@@ -8,7 +8,6 @@ ApplicationRunner::ApplicationRunner()
 ApplicationRunner::~ApplicationRunner()
 {	// Clean up memory
 	delete configuration.window;
-	glfwTerminate();
 }
 
 void ApplicationRunner::on_event(Event& _event)
@@ -19,35 +18,11 @@ void ApplicationRunner::on_event(Event& _event)
 bool ApplicationRunner::initialize()
 {	// For application initialization
 	std::cout << "Initializing Application" << std::endl;
-
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	configuration.window = Window::create_window(800, 600, "Test Window", NULL, NULL);
-	if (!configuration.window) {
-		std::cout << "Failed to create window" << std::endl;
-		return false;
-	}
-
-	configuration.window->make_current_context();
-
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return false;
-	}
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	configuration.window = Window::create_window(WindowProperties("MineSweeper", 1280, 720));
 
 	// Hook event system
 	std::function<void(Event& _event)> event_callback = std::bind(&ApplicationRunner::on_event, this, std::placeholders::_1);
 	configuration.window->set_event_callback(event_callback);
-
-	set_event_hooks();
 
 	// Other setups
 	srand(time(NULL));
@@ -57,21 +32,7 @@ bool ApplicationRunner::initialize()
 
 void ApplicationRunner::set_event_hooks()
 {	// Hook events to event system
-	glfwSetKeyCallback(configuration.window->raw_pointer(), [](GLFWwindow* _window, int _key, int _scancode, int _action, int _mods) {
-		WindowUserPointer* user_ptr = (WindowUserPointer*)glfwGetWindowUserPointer(_window);
-		
-		if (_action == GLFW_PRESS)
-		{
-			user_ptr->event_callback(KeyPressedEvent(static_cast<KeyCode>(_key), 0));
-			return;
-		}
-
-		if (_action == GLFW_RELEASE)
-		{
-			user_ptr->event_callback(KeyReleasedEvent(static_cast<KeyCode>(_key)));
-			return;
-		}
-	});
+	
 }
 
 bool ApplicationRunner::is_running()
@@ -88,11 +49,7 @@ void ApplicationRunner::internal_execute_before()
 
 void ApplicationRunner::internal_execute_after()
 {
-	glfwSwapBuffers(configuration.window->raw_pointer());
-	glfwPollEvents();
-
-	if (glfwWindowShouldClose(configuration.window->raw_pointer()))
-		terminate();
+	configuration.window->update();
 }
 
 ApplicationState* ApplicationRunner::get_state()
