@@ -10,6 +10,11 @@ workspace "Minesweeper"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "vendor/GLFW/include"
+
+include "vendor/GLFW"
+
 project "Minesweeper"
 	location "src"
 	kind "ConsoleApp"
@@ -33,17 +38,17 @@ project "Minesweeper"
 
 	links {
 		"opengl32",
-		"glfw3",
+		"GLFW",
 		"freetyped"
 	}
 
 	includedirs
 	{
 		"src",
-		"vendor/glfw",
 		"vendor/glad/include",
 		"vendor/freetype/include",
-		"vendor/glm/include"
+		"vendor/glm/include",
+		"%{IncludeDir.GLFW}"
 	}
 
 	cppdialect "C++17"
