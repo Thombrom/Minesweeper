@@ -5,6 +5,7 @@
 	do - this is also the first state served
 	to you when you launch the appliation
 */
+/*
 #include <string>
 #include <iostream>
 #include <windows.h>
@@ -17,7 +18,7 @@ class MenuState : public ApplicationState
 public:
 	MenuState(ApplicationRunner* _runner);
 
-	void on_event(Event& _event);
+	void on_event(Event* _event);
 	void update_state();
 	void execute();
 
@@ -41,4 +42,4 @@ private:
 		STATISTICS = 1,
 		EXIT = 2
 	};
-};
+};*/

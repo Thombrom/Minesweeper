@@ -1,5 +1,5 @@
 #include "MenuState.h"
-
+/*
 MenuState::MenuState(ApplicationRunner* _runner)
 	: ApplicationState(_runner)
 {
@@ -24,9 +24,9 @@ void MenuState::update_state()
 	// Honestly nothing here
 }
 
-void MenuState::on_event(Event& _event)
+void MenuState::on_event(Event* _event)
 {
-	EventDispatcher dispatcher(_event);
+	EventDispatcher dispatcher(*_event);
 	dispatcher.execute<KeyPressedEvent>(BIND_EVENT_FN(MenuState::handle_key_pressed));
 }
 
@@ -83,3 +83,4 @@ void MenuState::draw_menu()
 		std::cout << menu_items[itt] << std::endl;
 	}
 }
+*/

@@ -1,19 +1,14 @@
 #include <iostream>
 
-#include "Application/ApplicationRunner.h"
-ApplicationRunner runner;
+#include "Application/Application.h"
+Application app;
 
 int main()
 {
-	if (!runner.initialize())
-		return -1;
-	runner.set_state(new MenuState(&runner));
+	app.initialize();
 
-	while (runner.is_running())
-	{
-		runner.update();
-		runner.execute();
-	}
+	while (app.is_running())
+		app.update();
 
 	return 0;
 }

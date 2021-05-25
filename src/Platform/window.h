@@ -12,7 +12,7 @@
 
 struct WindowProperties
 {
-	using EventCallbackFn = std::function<void(Event& _event)>;
+	using EventCallbackFn = std::function<void(Event* _event)>;
 	
 	EventCallbackFn event_callback;
 	std::string name;
@@ -36,7 +36,7 @@ struct WindowProperties
 class Window
 {
 public:
-	using EventCallbackFn = std::function<void(Event& _event)>;
+	using EventCallbackFn = std::function<void(Event* _event)>;
 
 public:
 	virtual ~Window() {};

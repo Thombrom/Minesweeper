@@ -1,5 +1,7 @@
 #include "GameState.h"
 
+/*
+
 GameState::GameState(ApplicationRunner* _runner, uint32_t _size_x, uint32_t _size_y, uint32_t _mine_count)
 	: ApplicationState(_runner), size_x(_size_x), size_y(_size_y), mine_count(_mine_count)
 {
@@ -31,9 +33,9 @@ void GameState::update_state()
 	}
 }
 
-void GameState::on_event(Event& _event)
+void GameState::on_event(Event* _event)
 {
-	EventDispatcher dispatcher(_event);
+	EventDispatcher dispatcher(*_event);
 	dispatcher.execute<KeyPressedEvent>(BIND_EVENT_FN(GameState::handle_key_pressed));
 }
 
@@ -94,3 +96,5 @@ uint32_t GameState::clamp(uint32_t _value, uint32_t _min, uint32_t _max)
 	if (_value > _min && _value > _max)
 		return _max;
 }
+
+*/

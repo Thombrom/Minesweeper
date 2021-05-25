@@ -66,13 +66,13 @@ void WindowsWindow::hook_events()
 
 		if (_action == GLFW_PRESS)
 		{
-			props->event_callback(KeyPressedEvent(static_cast<KeyCode>(_key), 0));
+			props->event_callback(new KeyPressedEvent(static_cast<KeyCode>(_key), 0));
 			return;
 		}
 
 		if (_action == GLFW_RELEASE)
 		{
-			props->event_callback(KeyReleasedEvent(static_cast<KeyCode>(_key)));
+			props->event_callback(new KeyReleasedEvent(static_cast<KeyCode>(_key)));
 			return;
 		}
 	});
@@ -82,6 +82,8 @@ void WindowsWindow::update()
 {
 	glfwPollEvents();
 	glfwSwapBuffers(m_window);
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 uint32_t WindowsWindow::get_height() const
