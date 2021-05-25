@@ -9,7 +9,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H  
 
-#include "Shader.h"
+#include "Render/Shader/Shader.h"
 
 /*
 	Wrapper around the FreeFont library

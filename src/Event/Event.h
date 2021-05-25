@@ -46,6 +46,9 @@ public:
 	virtual int get_category_flags() const = 0;
 	
 	bool is_in_category(EventCategory _category) { return get_category_flags() & _category; }
+
+public:
+	bool is_handled = false;
 };
 
 /*
@@ -65,9 +68,9 @@ public:
 
 	template<typename EventType, typename EventFunc>
 	bool execute(EventFunc _function) {
-		if (m_event->get_event_type() == EventType::StaticType())
+		if (m_event->get_event_type() == EventType::StaticType() && !m_event->is_handled)
 		{
-			_function(static_cast<EventType&>(*m_event));
+			m_event->is_handled = _function(static_cast<EventType&>(*m_event));
 			return true;
 		}
 		return false;
@@ -78,3 +81,6 @@ protected:
 };
 
 #include "KeyEvent.h"
+#include "MouseEvent.h"
+#include "ApplicationEvent.h"
+#include "InternalEvent.h"

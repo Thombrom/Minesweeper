@@ -16,11 +16,21 @@ class Application
 {
 public:
 	Application();
-	
+
+	// General purpose
 	void initialize();
 	void event_callback(Event* _event);
 	bool is_running() { return running; }
 	void update();
+
+	// Alter layers
+	void push_layer(Layer* _layer) { layer_stack.push_layer(_layer); }
+	void pop_layer() { layer_stack.pop_layer(); };
+	void pop_layer(uint32_t _position) { layer_stack.pop_layer(_position); };
+	void pop_layer_all(uint32_t _position) { layer_stack.pop_layer_all(_position); };
+
+	// Window
+	Window* get_window() { return window; }
 
 private:
 	Window* window;
@@ -28,6 +38,7 @@ private:
 	EventStack event_stack;
 	LayerStack layer_stack;
 
-private:
 	bool running;
 };
+
+#include "Layers/ApplicationLayer.h"

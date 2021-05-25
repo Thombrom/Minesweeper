@@ -18,8 +18,6 @@ bool WindowsWindow::init_glfw()
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-		
 	}
 	return true;
 }
@@ -52,6 +50,7 @@ WindowsWindow::WindowsWindow(const WindowProperties& _props)
 		__debugbreak();
 
 	hook_events();
+	glViewport(0, 0, _props.width, _props.height);
 }
 
 WindowsWindow::~WindowsWindow()
@@ -66,14 +65,88 @@ void WindowsWindow::hook_events()
 
 		if (_action == GLFW_PRESS)
 		{
+			std::cout << "KeyPressedEvent " << _key << std::endl;
 			props->event_callback(new KeyPressedEvent(static_cast<KeyCode>(_key), 0));
 			return;
 		}
 
 		if (_action == GLFW_RELEASE)
 		{
+			std::cout << "KeyReleasedEvent " << _key << std::endl;
 			props->event_callback(new KeyReleasedEvent(static_cast<KeyCode>(_key)));
 			return;
+		}
+
+		if (_action == GLFW_REPEAT)
+		{
+			std::cout << "KeyPressedEvent " << _key << std::endl;
+			props->event_callback(new KeyPressedEvent(static_cast<KeyCode>(_key), 1));
+			return;
+		}
+	});
+
+
+	glfwSetMouseButtonCallback(m_window, [](GLFWwindow* _window, int _key, int _action, int _mods) {
+		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
+
+		if (_action == GLFW_PRESS)
+		{
+			std::cout << "MouseButtonPressedEvent " << _key << std::endl;
+			props->event_callback(new MouseButtonPressedEvent(static_cast<MouseCode>(_key)));
+			return;
+		}
+
+		if (_action == GLFW_RELEASE)
+		{
+			std::cout << "MouseButtonReleasedEvent " << _key << std::endl;
+			props->event_callback(new MouseButtonReleasedEvent(static_cast<MouseCode>(_key)));
+			return;
+		}
+	});
+
+	glfwSetCursorPosCallback(m_window, [](GLFWwindow* _window, double _x, double _y) {
+		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
+		props->event_callback(new MouseMovedEvent(_x, _y));
+		std::cout << "MouseMovedEvent (" << _x << ", " << _y << ")" << std::endl;
+	});
+
+	glfwSetScrollCallback(m_window, [](GLFWwindow* _window, double _x, double _y) {
+		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
+		props->event_callback(new MouseScrollEvent(_x, _y));
+		std::cout << "MouseScrollEvent (" << _x << ", " << _y << ")" << std::endl;
+	});
+
+	glfwSetWindowPosCallback(m_window, [](GLFWwindow* _window, int _x, int _y) {
+		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
+		props->event_callback(new WindowMovedEvent(_x, _y));
+		std::cout << "WindowMovedEvent (" << _x << ", " << _y << ")" << std::endl;
+	});
+
+	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* _window, int _x, int _y) {
+		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
+		props->event_callback(new WindowResizeEvent(_x, _y));
+		std::cout << "WindowResizeEvent (" << _x << ", " << _y << ")" << std::endl;
+	});
+
+	glfwSetWindowCloseCallback(m_window, [](GLFWwindow* _window) {
+		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
+		props->event_callback(new WindowCloseEvent());
+		std::cout << "WindowCloseEvent" << std::endl;
+	});
+
+	glfwSetWindowFocusCallback(m_window, [](GLFWwindow* _window, int _action) {
+		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
+
+		if (_action == GLFW_TRUE)
+		{
+			props->event_callback(new WindowFocusEvent());
+			std::cout << "WindowFocusEvent" << std::endl;
+		}
+
+		if (_action == GLFW_FALSE)
+		{
+			props->event_callback(new WindowLostFocusEvent());
+			std::cout << "WindowLostFocusEvent" << std::endl;
 		}
 	});
 }

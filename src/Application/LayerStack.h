@@ -19,6 +19,9 @@ public:
 	void stack_update();
 	void stack_event_propagate(Event& _event);
 
+	std::vector<LayerPtr>::iterator begin() { return layer_stack.begin(); }
+	std::vector<LayerPtr>::iterator end() { return layer_stack.end(); }
+
 private:
 	std::vector<LayerPtr> layer_stack;
 };

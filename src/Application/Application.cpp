@@ -17,17 +17,24 @@ void Application::initialize()
 
 void Application::event_callback(Event* _event)
 {
-	std::cout << "Event pushed to stack" << std::endl;
+	// React to certain functions internally
+	EventDispatcher dispatcher(*_event);
+	dispatcher.execute<WindowCloseEvent>([this](Event& _event)->bool {
+		running = false;
+		return true;
+	});
+
+	
 	event_stack.push_event(_event);
 }
 
 void Application::update()
 {
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
 	for (Event* e : event_stack)
 		layer_stack.stack_event_propagate(*e);
+
+	for (Layer* layer : layer_stack)
+		layer->on_update();
 
 	event_stack.swap_buffer();
 	window->update();

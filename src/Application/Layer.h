@@ -1,11 +1,13 @@
 #pragma once
 
+//#include "Application.h"
 #include "Event/Event.h"
 
 /*
 	Interface for layers
 */
 class LayerStack;
+class Application;
 
 class Layer
 {
@@ -20,8 +22,10 @@ public:
 	uint32_t get_position() { return position; }
 
 protected:
-	Layer(uint32_t _position = 0)
-		: position(_position) {};
+	Layer(Application* _app, uint32_t _position = 0)
+		: position(_position), app(_app) {};
+
+	Application* app;
 
 private:
 	uint32_t position;
