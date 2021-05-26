@@ -4,6 +4,9 @@
 #include <functional>
 
 #include "Application/Layer.h"
+
+#include "Render/Primitive.h"
+#include "Render/Shader/ShaderLibrary.h"
 #include "Render/Font.h"
 
 class ApplicationLayer : public Layer
@@ -26,6 +29,6 @@ private:
 
 private:
 	Font font;
-	Shader shader;
-
+	
+	Shape shape;
 };
