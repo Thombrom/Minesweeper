@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstring>
+
 #include "../Primitive.h"
 
 class Rectangle : public Primitive

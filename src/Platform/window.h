@@ -50,6 +50,6 @@ public:
 	static Window* create_window(const WindowProperties& _properties = WindowProperties());
 };
 
-#ifdef MINESWEEPER_PLATFORM_LINUX
-	static_assert(false, "Windows Only Support");
+#if !defined (MINESWEEPER_PLATFORM_LINUX) || !defined (MINESWEEPER_PLATFORM_WINDOWS)
+	static_assert(false, "Windows and Linux Only Support");
 #endif

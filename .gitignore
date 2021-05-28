@@ -8,3 +8,11 @@ bin-int/*
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+*.VC.db
+
+// Makefiles
+**/Makefile
+
+// Misc
+run.sh
+*.a

@@ -20,7 +20,7 @@ Shape::~Shape()
 	glDeleteVertexArrays(1, &VAO);
 }
 
-void Shape::load_prop(ShapeProperty& _prop)
+void Shape::load_prop(const ShapeProperty& _prop)
 {
 	if (VBO) glDeleteBuffers(1, &VBO);
 	if (EBO) glDeleteBuffers(1, &EBO);

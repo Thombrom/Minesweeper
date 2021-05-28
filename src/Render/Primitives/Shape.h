@@ -1,6 +1,8 @@
 #pragma once
 #include "../Primitive.h"
 
+#include <cstring>
+
 struct ShapeProperty
 {
 	float* vertices;
@@ -17,9 +19,10 @@ public:
 	Shape(ShapeProperty& _prop);
 	~Shape();
 
-	void load_prop(ShapeProperty& _prop);
+	void load_prop(const ShapeProperty& _prop);
 	void draw() override;
 
+	void set_color(const glm::vec3& _color) { color = _color; };
 	void set_color(glm::vec3& _color) { color = _color; };
 
 private:

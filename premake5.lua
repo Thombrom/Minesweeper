@@ -11,9 +11,9 @@ workspace "Minesweeper"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
-IncludeDir["GLFW"] = "vendor/GLFW/include"
+IncludeDir["GLFW"] = "vendor/glfw/include"
 
-include "vendor/GLFW"
+include "vendor/glfw"
 
 project "Minesweeper"
 	location "src"
@@ -37,9 +37,7 @@ project "Minesweeper"
 	}
 
 	links {
-		"opengl32",
 		"GLFW",
-		"freetyped"
 	}
 
 	includedirs
@@ -73,9 +71,20 @@ project "Minesweeper"
 			"MINESWEEPER_PLATFORM_WINDOWS"
 		}
 
+        links {
+		    "freetyped",
+            "opengl32"
+        }
+
 	filter "system:linux"
 		defines
 		{
 			"MINESWEEPER_PLATFORM_LINUX"
 		}
+
+        links {
+            "freetype",
+            "dl",
+            "pthread"
+        }
 		

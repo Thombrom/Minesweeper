@@ -1,5 +1,14 @@
 #include "WindowsWindow.h"
 
+#if defined (MINESWEEPER_PLATFORM_WINDOWS)
+    #define breakpoint __debugbreak()
+#elif defined (MINESWEEPER_PLATFORM_LINUX)
+    #define breakpoint exit(1)
+#else
+    #define breakpoint static_assert(false, "Only Windows and Linux Support")
+#endif
+
+
 bool WindowsWindow::s_GLFWinitialized = false;
 
 Window* Window::create_window(const WindowProperties& _props)
@@ -33,6 +42,8 @@ bool WindowsWindow::init_glad()
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    return true;
 }
 
 WindowsWindow::WindowsWindow(const WindowProperties& _props)
@@ -40,14 +51,14 @@ WindowsWindow::WindowsWindow(const WindowProperties& _props)
 	std::cout << "Created WindowsWindow" << std::endl;
 
 	if (!init_glfw())
-		__debugbreak();
+		breakpoint;
 
 	m_window = glfwCreateWindow((int)properties.width, (int)properties.height, properties.name.c_str(), nullptr, nullptr);
 	glfwMakeContextCurrent(m_window);
 	glfwSetWindowUserPointer(m_window, &properties);
 
 	if (!init_glad())
-		__debugbreak();
+		breakpoint;
 
 	hook_events();
 	glViewport(0, 0, _props.width, _props.height);
