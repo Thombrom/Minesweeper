@@ -7,9 +7,10 @@
 #include <gtc/matrix_transform.hpp>
 
 #include <ft2build.h>
-#include FT_FREETYPE_H  
+#include FT_FREETYPE_H
 
 #include "Render/Shader/Shader.h"
+#include "Render/Shader/ShaderLibrary.h"
 
 /*
 	Wrapper around the FreeFont library

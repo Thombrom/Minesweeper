@@ -16,6 +16,7 @@ class Application
 {
 public:
 	Application();
+    ~Application();
 
 	// General purpose
 	void initialize();

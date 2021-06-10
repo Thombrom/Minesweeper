@@ -5,7 +5,6 @@
 
 #include "Application/Layer.h"
 
-#include "Render/Primitive.h"
 #include "Render/Shader/ShaderLibrary.h"
 #include "Render/Font.h"
 
@@ -13,6 +12,7 @@ class ApplicationLayer : public Layer
 {
 public:
 	ApplicationLayer(Application* _app);
+    ~ApplicationLayer();
 
 	void on_update() override;
 	void on_event(Event& _event) override;
@@ -23,12 +23,6 @@ public:
 private:
 	bool handle_resize(WindowResizeEvent& _event); 
 
-	unsigned int VBO, EBO, VAO;
-	float vertices[3 * 4];
-	unsigned int indices[6];
-
 private:
 	Font font;
-	
-	Shape shape;
 };

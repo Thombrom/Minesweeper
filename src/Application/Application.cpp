@@ -5,6 +5,11 @@ Application::Application()
 	// Empty
 }
 
+Application::~Application()
+{
+    delete window;
+}
+
 void Application::initialize()
 {
 	std::cout << "Initializing Application" << std::endl;
@@ -13,6 +18,20 @@ void Application::initialize()
 	// Set event callback
 	std::function<void(Event* _event)> event_callback = std::bind(&Application::event_callback, this, std::placeholders::_1);
 	window->set_event_callback(event_callback);
+	
+    Shader shader;
+
+    // Initialize shape shader
+	shader.set_vertex_shader("resources/shaders/vertex_shader.vs");
+	shader.set_fragment_shader("resources/shaders/fragment_shader.fs");
+	shader.compile();
+	ShaderLibrary::Load(shader, ShaderType::Shape);
+	
+    // Initialize font shader
+	shader.set_vertex_shader("resources/shaders/font_vertex.vs");
+	shader.set_fragment_shader("resources/shaders/font_fragment.fs");
+	shader.compile();
+    ShaderLibrary::Load(shader, ShaderType::Font);
 }
 
 void Application::event_callback(Event* _event)

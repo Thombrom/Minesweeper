@@ -2,10 +2,7 @@
 
 Font::Font()
 {
-	// Initialize shader
-	font_shader.set_vertex_shader("resources/shaders/font_vertex.vs");
-	font_shader.set_fragment_shader("resources/shaders/font_fragment.fs");
-	font_shader.compile();
+    font_shader = ShaderLibrary::Retrieve(ShaderType::Font);
 
 	// Set up vertex arrays
 	glGenVertexArrays(1, &VAO);

@@ -5,7 +5,7 @@
 
 enum class ShaderType
 {
-	ShapeType
+	Shape, Font
 };
 
 class ShaderLibrary
@@ -20,6 +20,11 @@ public:
 	static Shader Retrieve(ShaderType _key) {
 		return library[_key]; 
 	}
+
+    static void Destroy() {
+        for (auto [key, value] : library)
+            value.destroy();
+    }
 
 private:
 	static std::map<ShaderType, Shader> library;

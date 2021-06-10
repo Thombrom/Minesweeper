@@ -1,10 +1,10 @@
 #include <iostream>
 
 #include "Application/Application.h"
-Application app;
 
 int main()
 {
+    Application app;
 	app.initialize();
 	app.push_layer(new ApplicationLayer(&app));
 

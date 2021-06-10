@@ -19,6 +19,7 @@ public:
 
 	// use/activate the shader
 	void use();
+    void destroy();
 
 	// utility uniform functions
 	void set_bool(const std::string &name, bool value) const;
