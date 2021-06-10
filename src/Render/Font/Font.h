@@ -28,14 +28,11 @@ struct FontChar
 class Font
 {
 public:
-	Font();
-	void load(const char* _path, uint16_t _width = 0, uint16_t _height = 48);
+    Font() = default;
 
-	void render_text(std::string _text, float _x, float _y, float _scale, glm::vec3 color);
+    void load(const char* _path, uint16_t _width = 0, uint16_t _height = 48);
+    FontChar& get_char(char _c) { return characters.at(_c); };
 
 private:
-	unsigned int VAO, VBO;
-
-	Shader font_shader;
 	std::map<char, FontChar> characters;
 };

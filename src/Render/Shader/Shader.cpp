@@ -62,6 +62,8 @@ void Shader::set_geometry_shader(const char* _geometry_path)
 
 void Shader::compile()
 {
+    std::cout << "Compiling Shader " << std::endl;
+
 	ID = glCreateProgram();
 	if (shader_ids[ShaderType::VERTEX])   glAttachShader(ID, shader_ids[ShaderType::VERTEX]);
 	if (shader_ids[ShaderType::FRAGMENT]) glAttachShader(ID, shader_ids[ShaderType::FRAGMENT]);

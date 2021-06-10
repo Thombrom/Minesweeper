@@ -5,7 +5,7 @@
 
 enum class ShaderType
 {
-	Shape, Font
+	TEXT, BUTTON
 };
 
 class ShaderLibrary
@@ -28,4 +28,23 @@ public:
 
 private:
 	static std::map<ShaderType, Shader> library;
+
+public:
+    static void Initialize()
+    {
+        Shader shader;
+
+        // Initialize font shader
+        shader.set_vertex_shader("resources/shaders/text.vs");
+        shader.set_fragment_shader("resources/shaders/text.fs");
+        shader.compile();
+        ShaderLibrary::Load(shader, ShaderType::TEXT);
+
+        // Initialize button shader
+        shader.set_vertex_shader("resources/shaders/button.vs");
+        shader.set_fragment_shader("resources/shaders/button.fs");
+        shader.compile();
+        ShaderLibrary::Load(shader, ShaderType::BUTTON);
+    }
 };
+

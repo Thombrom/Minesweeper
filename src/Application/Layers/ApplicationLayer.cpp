@@ -4,7 +4,11 @@ ApplicationLayer::ApplicationLayer(Application* _app)
 	: Layer(_app, 0)
 {
 	std::cout << "Created Application Layer" << std::endl;
-	font.load("resources/fonts/arial.ttf");
+    text = Text::Create("This is a test!", FontType::ARIAL);
+    text->set_center(glm::vec3(1280.0f / 2, 720.0f / 2, 0));
+
+    button = Button::Create(glm::vec2(200.0f, 200.0f), glm::vec2(100.0f, 100.0f), "Test", 2);
+    button->set_border_color(glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 ApplicationLayer::~ApplicationLayer()
@@ -17,26 +21,14 @@ void ApplicationLayer::on_event(Event& _event)
 	EventDispatcher dispatcher(_event);
 	dispatcher.execute<WindowResizeEvent>(BIND_EVENT_FN(ApplicationLayer::handle_resize));
 	dispatcher.execute<MouseMovedEvent>([this](MouseMovedEvent& _event)->bool {
-		/*float x = _event.get_x();
-		float y = _event.get_y();
-
-		if ((x > 1280 / 4 && x < 3 * 1280 / 4) && (y > 720 / 4 && y < 3 * 720 / 4)) {
-			shape.set_color(glm::vec3(0.2f, 0.2f, 0.8f));
-			return true;
-		}
-		else
-		{
-			shape.set_color(glm::vec3(0.5f, 0.7f, 0.1f));
-			return false;
-		}*/
         return true;
 	});
 }
 
 void ApplicationLayer::on_update()
 {
-	//shape.draw();
-	font.render_text("This is a test", 25.0f, 25.0f, 1.0f, glm::vec3(0.5f, 0.8f, 0.2f));
+    text->draw(glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f));
+    button->draw(glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f));
 }
 
 void ApplicationLayer::on_push()
