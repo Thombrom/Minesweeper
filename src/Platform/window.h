@@ -1,6 +1,7 @@
 
 #include <functional>
 #include <string>
+#include <glm.hpp>
 
 #include "Event/Event.h"
 
@@ -44,8 +45,9 @@ public:
 
 	virtual uint32_t get_width() const = 0;
 	virtual uint32_t get_height() const = 0;
-
 	virtual void set_event_callback(const EventCallbackFn& _callback) = 0;
+
+    virtual void set_clear_color(const glm::vec4& _clear_color) = 0;
 
 	static Window* create_window(const WindowProperties& _properties = WindowProperties());
 };

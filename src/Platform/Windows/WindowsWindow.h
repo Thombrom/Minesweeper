@@ -16,8 +16,9 @@ public:
 
 	uint32_t get_width() const override;
 	uint32_t get_height() const override;
-
 	void set_event_callback(const EventCallbackFn& _callback) override;
+
+    void set_clear_color(const glm::vec4& _clear_color) override { clear_color = _clear_color; }
 
 private:
 	bool init_glfw();
@@ -30,4 +31,7 @@ private:
 
 	WindowProperties properties;
 	static bool s_GLFWinitialized;
+
+private:
+    glm::vec4 clear_color;
 };

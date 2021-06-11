@@ -14,6 +14,7 @@ void Application::initialize()
 {
 	std::cout << "Initializing Application" << std::endl;
 	window = Window::create_window(WindowProperties("Minesweeper", 1280, 720));
+    window->set_clear_color(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
 	// Set event callback
 	std::function<void(Event* _event)> event_callback = std::bind(&Application::event_callback, this, std::placeholders::_1);

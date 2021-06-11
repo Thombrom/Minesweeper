@@ -62,6 +62,9 @@ WindowsWindow::WindowsWindow(const WindowProperties& _props)
 
 	hook_events();
 	glViewport(0, 0, _props.width, _props.height);
+
+    // Default variable initialization
+    clear_color = glm::vec4(0.2f, 0.3f, 0.3f, 1.0f);
 }
 
 WindowsWindow::~WindowsWindow()
@@ -166,7 +169,7 @@ void WindowsWindow::update()
 {
 	glfwPollEvents();
 	glfwSwapBuffers(m_window);
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(clear_color.r, clear_color.g, clear_color.b, clear_color.a);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
