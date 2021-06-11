@@ -120,8 +120,13 @@ void WindowsWindow::hook_events()
 
 	glfwSetCursorPosCallback(m_window, [](GLFWwindow* _window, double _x, double _y) {
 		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
-		props->event_callback(new MouseMovedEvent(_x, _y));
-		std::cout << "MouseMovedEvent (" << _x << ", " << _y << ")" << std::endl;
+
+        // Adjust window center to be (0, 0)
+        double nx = _x - props->width / 2;
+        double ny = _y - props->height / 2;
+
+		props->event_callback(new MouseMovedEvent(nx, ny));
+		std::cout << "MouseMovedEvent (" << nx << ", " << ny << ")" << std::endl;
 	});
 
 	glfwSetScrollCallback(m_window, [](GLFWwindow* _window, double _x, double _y) {
@@ -138,6 +143,10 @@ void WindowsWindow::hook_events()
 
 	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* _window, int _x, int _y) {
 		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
+
+        props->width = _x;
+        props->height = _y;
+
 		props->event_callback(new WindowResizeEvent(_x, _y));
 		std::cout << "WindowResizeEvent (" << _x << ", " << _y << ")" << std::endl;
 	});
@@ -186,4 +195,13 @@ uint32_t WindowsWindow::get_width() const
 void WindowsWindow::set_event_callback(const EventCallbackFn& _callback)
 {
 	properties.event_callback = _callback;
+}
+
+glm::mat4 WindowsWindow::get_orthographic()
+{
+    float height, width;
+    height = (float)properties.height;
+    width  = (float)properties.width;
+
+    return glm::ortho(width / -2, width / 2, height / -2, height / 2);
 }

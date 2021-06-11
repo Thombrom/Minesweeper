@@ -1,7 +1,9 @@
 
 #include <functional>
 #include <string>
+
 #include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
 
 #include "Event/Event.h"
 
@@ -48,6 +50,7 @@ public:
 	virtual void set_event_callback(const EventCallbackFn& _callback) = 0;
 
     virtual void set_clear_color(const glm::vec4& _clear_color) = 0;
+    virtual glm::mat4 get_orthographic() = 0;
 
 	static Window* create_window(const WindowProperties& _properties = WindowProperties());
 };

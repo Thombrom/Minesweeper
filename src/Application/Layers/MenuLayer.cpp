@@ -3,9 +3,9 @@
 MenuLayer::MenuLayer(Application* _app, uint32_t _position)
     : Layer(_app, _position) {
 
-    button_panel[0] = Button::Create(glm::vec2(200.0f, 500.0f), glm::vec2(200.0f, 80.0f), "Button 0", 2);
-    button_panel[1] = Button::Create(glm::vec2(200.0f, 400.0f), glm::vec2(200.0f, 80.0f), "Button 1", 2);
-    button_panel[2] = Button::Create(glm::vec2(200.0f, 300.0f), glm::vec2(200.0f, 80.0f), "Button 2", 2);
+    button_panel[0] = Button::Create(glm::vec2(-100.0f, 60.0f), glm::vec2(200.0f, 80.0f), "Button 0", 2);
+    button_panel[1] = Button::Create(glm::vec2(-100.0f, -40.0f), glm::vec2(200.0f, 80.0f), "Button 1", 2);
+    button_panel[2] = Button::Create(glm::vec2(-100.0f, -140.0f), glm::vec2(200.0f, 80.0f), "Button 2", 2);
 
     // Style buttons
     for (size_t itt = 0; itt < sizeof(button_panel) / sizeof(Button*); itt++)
@@ -34,7 +34,7 @@ void MenuLayer::on_pop()
 void MenuLayer::on_update()
 {
     for (size_t itt = 0; itt < sizeof(button_panel) / sizeof(Button*); itt++)
-        button_panel[itt]->draw(glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f));
+        button_panel[itt]->draw(app->get_window()->get_orthographic());
 }
 
 void MenuLayer::on_event(Event& _event)

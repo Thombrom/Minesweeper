@@ -19,6 +19,7 @@ public:
 	void set_event_callback(const EventCallbackFn& _callback) override;
 
     void set_clear_color(const glm::vec4& _clear_color) override { clear_color = _clear_color; }
+    glm::mat4 get_orthographic() override;
 
 private:
 	bool init_glfw();
