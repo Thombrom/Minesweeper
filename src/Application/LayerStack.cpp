@@ -18,7 +18,7 @@ void LayerStack::push_layer(LayerPtr _layer)
 
 void LayerStack::pop_layer()
 {
-	layer_stack.back()->on_pop();;
+	layer_stack.back()->on_pop();
 	layer_stack.pop_back();
 }
 

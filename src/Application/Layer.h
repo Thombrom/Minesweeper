@@ -1,6 +1,5 @@
 #pragma once
 
-//#include "Application.h"
 #include "Event/Event.h"
 
 /*
@@ -30,3 +29,4 @@ protected:
 private:
 	uint32_t position;
 };
+

@@ -9,6 +9,8 @@ ApplicationLayer::ApplicationLayer(Application* _app)
 
     button = Button::Create(glm::vec2(200.0f, 200.0f), glm::vec2(100.0f, 100.0f), "Test", 2);
     button->set_border_color(glm::vec3(0.0f, 1.0f, 0.0f));
+
+    app->push_layer(new MenuLayer(app, 1));
 }
 
 ApplicationLayer::~ApplicationLayer()
