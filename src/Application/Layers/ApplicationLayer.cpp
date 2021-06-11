@@ -3,13 +3,7 @@
 ApplicationLayer::ApplicationLayer(Application* _app)
 	: Layer(_app, 0)
 {
-	std::cout << "Created Application Layer" << std::endl;
-    text = Text::Create("This is a test!", FontType::ARIAL);
-    text->set_center(glm::vec3(1280.0f / 2, 720.0f / 2, 0));
-
-    button = Button::Create(glm::vec2(200.0f, 200.0f), glm::vec2(100.0f, 100.0f), "Test", 2);
-    button->set_border_color(glm::vec3(0.0f, 1.0f, 0.0f));
-
+    std::cout << "Appliation Layer Created" << std::endl;
     app->push_layer(new MenuLayer(app, 1));
 }
 
@@ -29,8 +23,7 @@ void ApplicationLayer::on_event(Event& _event)
 
 void ApplicationLayer::on_update()
 {
-    text->draw(glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f));
-    button->draw(glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f));
+
 }
 
 void ApplicationLayer::on_push()

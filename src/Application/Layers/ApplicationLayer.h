@@ -24,8 +24,4 @@ public:
 
 private:
 	bool handle_resize(WindowResizeEvent& _event);
-
-private:
-	Text* text;
-    Button* button;
 };

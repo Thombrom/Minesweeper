@@ -4,6 +4,7 @@
 #include <functional>
 #include <gtc/matrix_transform.hpp>
 
+#include "Application/Application.h"
 #include "Application/Layer.h"
 
 #include "Render/Drawable/Text.h"
@@ -20,4 +21,7 @@ public:
 
 	void on_push() override;
 	void on_pop() override;
+
+private:
+    Button* button_panel[3];
 };
