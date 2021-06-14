@@ -29,11 +29,15 @@ public:
     void set_position(const glm::vec3& _position);
     void set_size(const glm::vec3& _size);
     void set_border(unsigned int _border);
-    void set_text_scale(float _scale);
 
     void set_border_color(const glm::vec3& _border_color);
-    void set_button_color(const glm::vec3& _button_color);
-    void set_text_color(const glm::vec3& _text_color);
+    void set_button_color(const glm::vec3& _button_col);
+
+    // Event Functions
+    bool mouse_inside(MouseMovedEvent& _event);
+    bool mouse_outside(MouseMovedEvent& _event);
+    bool mouse_press(MouseKeyPressedEvent& _event);
+    bool mouse_release(MouseKeyReleasedEvent& _event);
 
 protected:
     Button(const glm::vec2 _position, const glm::vec2 _size, const std::string& _text, unsigned int _border);

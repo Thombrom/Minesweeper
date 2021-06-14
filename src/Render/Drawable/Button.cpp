@@ -98,18 +98,27 @@ void Button::draw(const glm::mat4& _view)
 
 void Button::set_position(const glm::vec3& _position)
 {
+    if (m_position == _position)
+        return;
+
     m_position = _position;
     buffer_data();
 }
 
 void Button::set_size(const glm::vec3& _size)
 {
+    if (m_size == _size)
+        return;
+
     m_size = _size;
     buffer_data();
 }
 
 void Button::set_border(unsigned int _border)
 {
+    if (m_bordre == _border)
+        return;
+
     m_border = _border;
     buffer_data();
 }
@@ -121,12 +130,18 @@ void Button::set_text_scale(float _scale)
 
 void Button::set_border_color(const glm::vec3& _border_color)
 {
+    if (m_color_border == _border_color)
+        return;
+
     m_color_border = _border_color;
     buffer_data();
 }
 
 void Button::set_button_color(const glm::vec3& _button_color)
 {
+    if (m_button_color == _button_color)
+        return;
+
     m_color_button = _button_color;
     buffer_data();
 }
@@ -134,4 +149,29 @@ void Button::set_button_color(const glm::vec3& _button_color)
 void Button::set_text_color(const glm::vec3& _text_color)
 {
     m_text->set_color(_text_color);
+}
+
+bool Button::mouse_inside(MouseMovedEvent& _event)
+{
+    float x, y;
+    x = _event.get_x();
+    y = _event.get_y();
+
+    return m_position.x < x && m_position.x + m_size.x > x &&
+           m_position.y < y && m_position.y + m_size.y > y;
+}
+
+bool Button::mouse_outside(MouseMovedEvent& _event)
+{
+    return !mouse_inside(_event);
+}
+
+bool Button::mouse_press(MouseKeyPressedEvent& _event)
+{
+
+}
+
+bool Button::mouse_release(MouseKeyReleasedEvent& _event)
+{
+
 }
