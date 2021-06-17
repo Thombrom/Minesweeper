@@ -5,6 +5,7 @@
 
 #include "EventStack.h"
 #include "LayerStack.h"
+#include "Input.h"
 
 #include "Platform/window.h"
 
@@ -21,7 +22,7 @@ public:
 	// General purpose
 	void initialize();
 	void event_callback(Event* _event);
-	bool is_running() { return running; }
+	bool is_running() { return running; };
 	void update();
 
 	// Alter layers
@@ -32,6 +33,9 @@ public:
 
 	// Window
 	Window* get_window() { return window; }
+
+	// Modifiying
+	void shutdown() { running = false; }
 
 private:
 	Window* window;

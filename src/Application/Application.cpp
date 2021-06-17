@@ -31,10 +31,11 @@ void Application::event_callback(Event* _event)
 	EventDispatcher dispatcher(*_event);
 	dispatcher.execute<WindowCloseEvent>([this](Event& _event)->bool {
 		running = false;
-		return true;
+		return false;
 	});
 
 	event_stack.push_event(_event);
+	Input::RecordEvent(*_event);
 }
 
 void Application::update()
