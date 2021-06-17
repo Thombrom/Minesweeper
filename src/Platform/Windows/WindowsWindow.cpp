@@ -123,7 +123,7 @@ void WindowsWindow::hook_events()
 
         // Adjust window center to be (0, 0)
         double nx = _x - props->width / 2;
-        double ny = _y - props->height / 2;
+        double ny = props->height / 2 - _y;
 
 		props->event_callback(new MouseMovedEvent(nx, ny));
 		std::cout << "MouseMovedEvent (" << nx << ", " << ny << ")" << std::endl;
