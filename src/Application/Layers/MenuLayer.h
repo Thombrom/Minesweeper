@@ -23,5 +23,6 @@ public:
 	void on_pop() override;
 
 private:
-    Button* button_panel[3];
+    Button*				button_panel[3];
+	InternalEventType	button_click_event[3];
 };

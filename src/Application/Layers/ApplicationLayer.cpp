@@ -19,6 +19,14 @@ void ApplicationLayer::on_event(Event& _event)
 	dispatcher.execute<MouseMovedEvent>([this](MouseMovedEvent& _event)->bool {
         return true;
 	});
+
+	dispatcher.execute<InternalEvent>([this](InternalEvent& _event)->bool {
+		std::cout << "Received Internal Event in ApplicationLayer" << std::endl;
+
+		if (_event.get_type() == InternalEventType::EXIT_APP)
+			app->shutdown();
+		return true;
+	});
 }
 
 void ApplicationLayer::on_update()
