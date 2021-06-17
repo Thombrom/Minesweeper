@@ -1,15 +1,15 @@
 #include "Button.h"
 
-Button* Button::Create(const glm::vec2 _position, const glm::vec2 _size, const std::string& _text, unsigned int _border)
+Button* Button::Create(const glm::vec3 _position, const glm::vec2 _size, const std::string& _text, unsigned int _border)
 {
     return new Button(_position, _size, _text, _border);
 }
 
-Button::Button(const glm::vec2 _position, const glm::vec2 _size, const std::string& _text, unsigned int _border)
+Button::Button(const glm::vec3 _position, const glm::vec2 _size, const std::string& _text, unsigned int _border)
     : m_size(_size), m_position(_position), m_border(_border) {
 
     m_text = Text::Create(_text, FontType::ARIAL);
-    m_text->set_center(glm::ivec3(_position.x + _size.x / 2, _position.y + _size.y / 2, 0.2f));
+    m_text->set_center(glm::ivec3(_position.x + _size.x / 2, _position.y + _size.y / 2, 0.002f + _position.z));
     m_shader = ShaderLibrary::Retrieve(ShaderType::BUTTON);
 
     // Setup default values
@@ -41,37 +41,38 @@ void Button::buffer_data()
     // For convenience
     float x_pos = m_position.x;
     float y_pos = m_position.y;
+    float z_pos = m_position.z;
     float w     = m_size.x;
     float h     = m_size.y;
     float b     = m_border;
 
     float vertex_data[6 * 6 * 2] = {
-        x_pos,      y_pos,      0.0f,
+        x_pos,      y_pos,      0.0f + z_pos,
         m_color_border.x, m_color_border.y, m_color_border.z,
-        x_pos + w,  y_pos,      0.0f,
+        x_pos + w,  y_pos,      0.0f + z_pos,
         m_color_border.x, m_color_border.y, m_color_border.z,
-        x_pos + w,  y_pos + h,  0.0f,
-        m_color_border.x, m_color_border.y, m_color_border.z,
-
-        x_pos,      y_pos,      0.0f,
-        m_color_border.x, m_color_border.y, m_color_border.z,
-        x_pos,      y_pos + h,  0.0f,
-        m_color_border.x, m_color_border.y, m_color_border.z,
-        x_pos + w,  y_pos + h,  0.0f,
+        x_pos + w,  y_pos + h,  0.0f + z_pos,
         m_color_border.x, m_color_border.y, m_color_border.z,
 
-        x_pos + b,      y_pos + b,      0.1f,
+        x_pos,      y_pos,      0.0f + z_pos,
+        m_color_border.x, m_color_border.y, m_color_border.z,
+        x_pos,      y_pos + h,  0.0f + z_pos,
+        m_color_border.x, m_color_border.y, m_color_border.z,
+        x_pos + w,  y_pos + h,  0.0f + z_pos,
+        m_color_border.x, m_color_border.y, m_color_border.z,
+
+        x_pos + b,      y_pos + b,      0.001f + z_pos,
         m_color_button.x, m_color_button.y, m_color_button.z,
-        x_pos + w - b,  y_pos + b,      0.1f,
+        x_pos + w - b,  y_pos + b,      0.001f + z_pos,
         m_color_button.x, m_color_button.y, m_color_button.z,
-        x_pos + w - b,  y_pos + h - b,  0.1f,
+        x_pos + w - b,  y_pos + h - b,  0.001f + z_pos,
         m_color_button.x, m_color_button.y, m_color_button.z,
 
-        x_pos + b,       y_pos + b,      0.1f,
+        x_pos + b,       y_pos + b,      0.001f + z_pos,
         m_color_button.x, m_color_button.y, m_color_button.z,
-        x_pos + b,       y_pos + h - b,  0.1f,
+        x_pos + b,       y_pos + h - b,  0.001f + z_pos,
         m_color_button.x, m_color_button.y, m_color_button.z,
-        x_pos + w - b,   y_pos + h - b,  0.1f,
+        x_pos + w - b,   y_pos + h - b,  0.001f + z_pos,
         m_color_button.x, m_color_button.y, m_color_button.z,
     };
 
@@ -102,10 +103,11 @@ void Button::set_position(const glm::vec3& _position)
         return;
 
     m_position = _position;
+    m_text->set_position(_position + glm::vec3(0.0f, 0.0f, 0.002f));
     buffer_data();
 }
 
-void Button::set_size(const glm::vec3& _size)
+void Button::set_size(const glm::vec2& _size)
 {
     if (m_size == _size)
         return;
@@ -116,7 +118,7 @@ void Button::set_size(const glm::vec3& _size)
 
 void Button::set_border(unsigned int _border)
 {
-    if (m_bordre == _border)
+    if (m_border == _border)
         return;
 
     m_border = _border;
@@ -139,7 +141,7 @@ void Button::set_border_color(const glm::vec3& _border_color)
 
 void Button::set_button_color(const glm::vec3& _button_color)
 {
-    if (m_button_color == _button_color)
+    if (m_color_button == _button_color)
         return;
 
     m_color_button = _button_color;
@@ -151,27 +153,31 @@ void Button::set_text_color(const glm::vec3& _text_color)
     m_text->set_color(_text_color);
 }
 
-bool Button::mouse_inside(MouseMovedEvent& _event)
+bool Button::mouse_inside()
 {
     float x, y;
-    x = _event.get_x();
-    y = _event.get_y();
+    x = Input::MousePosX();
+    y = Input::MousePosY();
 
     return m_position.x < x && m_position.x + m_size.x > x &&
            m_position.y < y && m_position.y + m_size.y > y;
 }
 
-bool Button::mouse_outside(MouseMovedEvent& _event)
+bool Button::mouse_outside()
 {
-    return !mouse_inside(_event);
+    return !mouse_inside();
 }
 
-bool Button::mouse_press(MouseKeyPressedEvent& _event)
+bool Button::mouse_press()
 {
-
+    bool res = (Input::Key(MouseCode::Button0) != m_mouse_press) && !m_mouse_press;
+    m_mouse_press = Input::Key(MouseCode::Button0);
+    return res && mouse_inside();
 }
 
-bool Button::mouse_release(MouseKeyReleasedEvent& _event)
+bool Button::mouse_release()
 {
-
+    bool res = (Input::Key(MouseCode::Button0) != m_mouse_press) && m_mouse_press;
+    m_mouse_press = Input::Key(MouseCode::Button0);
+    return res && mouse_inside();
 }
