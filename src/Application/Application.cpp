@@ -7,6 +7,8 @@ Application::Application()
 
 Application::~Application()
 {
+	ShaderLibrary::Destroy();
+	FontLibrary::Destroy();
     delete window;
 }
 

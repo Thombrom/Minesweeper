@@ -3,13 +3,14 @@
 ApplicationLayer::ApplicationLayer(Application* _app)
 	: Layer(_app, 0)
 {
-    std::cout << "Appliation Layer Created" << std::endl;
-    app->push_layer(new MenuLayer(app, 1));
+    // Initialize menu
+	//app->event_callback(new InternalEvent(InternalEventType::CHANGE_START_MENU, 0));
+	change_start_menu();
 }
 
 ApplicationLayer::~ApplicationLayer()
 {
-    ShaderLibrary::Destroy();
+	std::cout << "ApplicationLayer Destroyed" << std::endl;
 }
 
 void ApplicationLayer::on_event(Event& _event)
@@ -23,9 +24,22 @@ void ApplicationLayer::on_event(Event& _event)
 	dispatcher.execute<InternalEvent>([this](InternalEvent& _event)->bool {
 		std::cout << "Received Internal Event in ApplicationLayer" << std::endl;
 
-		if (_event.get_type() == InternalEventType::EXIT_APP)
+		if (_event.get_type() == InternalEventType::EXIT_APP) {
 			app->shutdown();
-		return true;
+			return true;
+		}
+
+		if (_event.get_type() == InternalEventType::CHANGE_START_MENU) {
+			change_start_menu();
+			return true;
+		}
+
+		if (_event.get_type() == InternalEventType::CHANGE_START_GAME) {
+			change_start_game();
+			return true;
+		}
+		
+		return false;
 	});
 }
 
@@ -50,3 +64,27 @@ bool ApplicationLayer::handle_resize(WindowResizeEvent& _event)
 	glViewport(0, 0, _event.get_width(), _event.get_height());
 	return true;
 }
+
+
+/*
+	------------- INTERNAL EVENT FUNCTIONS ------------
+*/
+void ApplicationLayer::change_start_menu()
+{
+	app->pop_layer_all(1);						// Purge all layers above 1
+	app->push_layer(new MenuLayer(app, 1));		// Change to the menu layer
+}
+
+void ApplicationLayer::change_start_game()
+{
+	app->pop_layer_all(1);						// Purge all layers above 1
+	app->push_layer(new MenuLayer(app, 1));		// Change to the menu layer
+}
+
+/*void ApplicationLayer::change_start_settings()
+{
+	app->pop_layer_all(1);						// Purge all layers above 1
+	app->push_layer(new MenuLayer(app, 1));		// Change to the menu layer
+}*/
+
+

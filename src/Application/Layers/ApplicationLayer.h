@@ -23,5 +23,11 @@ public:
 	void on_pop() override;
 
 private:
+	// Internal Event Functions
+	void change_start_menu();
+	void change_start_game();
+	//void change_start_settings();
+
+private:
 	bool handle_resize(WindowResizeEvent& _event);
 };
