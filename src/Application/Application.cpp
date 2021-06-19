@@ -36,6 +36,11 @@ void Application::event_callback(Event* _event)
 		return false;
 	});
 
+	dispatcher.execute<InternalEvent>([this](InternalEvent& _event)->bool {
+		std::cout << "Regisetered Internal Event" << std::endl;
+		return false;
+	});
+
 	event_stack.push_event(_event);
 	Input::RecordEvent(*_event);
 }
@@ -45,9 +50,7 @@ void Application::update()
 	for (Event* e : event_stack)
 		layer_stack.stack_event_propagate(*e);
 
-	for (Layer* layer : layer_stack)
-		layer->on_update();
-
+	layer_stack.stack_update();
 	event_stack.swap_buffer();
 	window->update();
 }

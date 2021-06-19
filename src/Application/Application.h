@@ -28,8 +28,7 @@ public:
 	// Alter layers
 	void push_layer(Layer* _layer) { layer_stack.push_layer(_layer); }
 	void pop_layer() { layer_stack.pop_layer(); };
-	void pop_layer(uint32_t _position) { layer_stack.pop_layer(_position); };
-	void pop_layer_all(uint32_t _position) { layer_stack.pop_layer_all(_position); };
+	void pop_after(uint32_t _position) { layer_stack.pop_after(_position); };
 
 	// Window
 	Window* get_window() { return window; }
@@ -48,3 +47,4 @@ private:
 
 #include "Layers/ApplicationLayer.h"
 #include "Layers/MenuLayer.h"
+#include "Layers/GameLayer.h"

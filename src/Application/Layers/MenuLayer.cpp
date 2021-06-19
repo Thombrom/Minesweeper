@@ -48,7 +48,6 @@ void MenuLayer::on_update()
         }
 
         if (button_panel[itt]->mouse_press()) {
-            std::cout << "MOUSE PRESSED ON BUTTON " << itt << std::endl;
             app->event_callback(new InternalEvent(button_click_event[itt], 0));
         }
 

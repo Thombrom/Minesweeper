@@ -4,8 +4,7 @@ ApplicationLayer::ApplicationLayer(Application* _app)
 	: Layer(_app, 0)
 {
     // Initialize menu
-	//app->event_callback(new InternalEvent(InternalEventType::CHANGE_START_MENU, 0));
-	change_start_menu();
+	app->event_callback(new InternalEvent(InternalEventType::CHANGE_START_MENU, 0));
 }
 
 ApplicationLayer::~ApplicationLayer()
@@ -71,14 +70,14 @@ bool ApplicationLayer::handle_resize(WindowResizeEvent& _event)
 */
 void ApplicationLayer::change_start_menu()
 {
-	app->pop_layer_all(1);						// Purge all layers above 1
+	app->pop_after(1);						// Purge all layers above 1
 	app->push_layer(new MenuLayer(app, 1));		// Change to the menu layer
 }
 
 void ApplicationLayer::change_start_game()
 {
-	app->pop_layer_all(1);						// Purge all layers above 1
-	app->push_layer(new MenuLayer(app, 1));		// Change to the menu layer
+	app->pop_after(1);						// Purge all layers above 1
+	app->push_layer(new GameLayer(app, 1));		// Change to the menu layer
 }
 
 /*void ApplicationLayer::change_start_settings()

@@ -6,6 +6,8 @@ int main()
 {
     Application app;
 	app.initialize();
+
+	// Start menu 
 	app.push_layer(new ApplicationLayer(&app));
 
 	while (app.is_running())
