@@ -6,6 +6,10 @@ LayerStack::LayerStack()
 	m_root = new Node();
 }
 
+LayerStack::~LayerStack() {
+	delete m_root;
+}
+
 void LayerStack::push_layer(LayerPtr _layer)
 {
 	uint32_t pos = 0;

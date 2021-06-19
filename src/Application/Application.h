@@ -34,10 +34,13 @@ public:
 	Window* get_window() { return window; }
 
 	// Modifiying
-	void shutdown() { running = false; }
+	void  shutdown() { running = false; }
+	void* get_data() { return m_data; }
+	void  set_data(void* _data) { m_data = _data; }
 
 private:
 	Window* window;
+	void* m_data;
 
 	EventStack event_stack;
 	LayerStack layer_stack;

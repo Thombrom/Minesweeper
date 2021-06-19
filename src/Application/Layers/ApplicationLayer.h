@@ -10,6 +10,13 @@
 #include "Render/Drawable/Text.h"
 #include "Render/Drawable/Button.h"
 
+struct ApplicationData
+{
+	uint32_t game_size_x;
+	uint32_t game_size_y;
+	uint32_t game_mine_count;
+};
+
 class ApplicationLayer : public Layer
 {
 public:

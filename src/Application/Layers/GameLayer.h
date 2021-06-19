@@ -10,6 +10,8 @@
 #include "Render/Drawable/Text.h"
 #include "Render/Drawable/Button.h"
 
+#include "Game/Minesweeper.h"
+
 class GameLayer : public Layer
 {
 public:
@@ -21,5 +23,10 @@ public:
 
 	void on_push() override;
 	void on_pop() override;
+
+private:
+	Button* back_button;
+
+	MineSweeper game;
 };
 

@@ -3,6 +3,12 @@
 ApplicationLayer::ApplicationLayer(Application* _app)
 	: Layer(_app, 0)
 {
+	// Set application data
+	ApplicationData* appdata = new ApplicationData{
+		10, 10, 10
+	};
+	app->set_data(appdata);
+
     // Initialize menu
 	app->event_callback(new InternalEvent(InternalEventType::CHANGE_START_MENU, 0));
 }

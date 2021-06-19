@@ -12,7 +12,7 @@ public:
 
 public:
 	LayerStack();
-	~LayerStack() { std::cout << "This layerstack is getting deleted" << std::endl; }
+	~LayerStack();
 
 	void push_layer(LayerPtr _layer);
 	void pop_layer();
