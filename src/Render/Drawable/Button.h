@@ -23,7 +23,7 @@ class Button : public Drawable
 {
 public:
     static Button* Create(const glm::vec3 _position, const glm::vec2 _size, const std::string& _text, unsigned int _border = 2);
-    ~Button();
+    static void Destroy(Button* _button);
 
     void draw(const glm::mat4& _view) override;
 

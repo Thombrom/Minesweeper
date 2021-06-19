@@ -5,6 +5,15 @@ Button* Button::Create(const glm::vec3 _position, const glm::vec2 _size, const s
     return new Button(_position, _size, _text, _border);
 }
 
+void Button::Destroy(Button* _button)
+{
+    glDeleteBuffers(1, &(_button->m_VBO));
+    glDeleteVertexArrays(1, &(_button->m_VAO));
+
+    Text::Destroy(_button->m_text);
+    delete _button;
+}
+
 Button::Button(const glm::vec3 _position, const glm::vec2 _size, const std::string& _text, unsigned int _border)
     : m_size(_size), m_position(_position), m_border(_border) {
 

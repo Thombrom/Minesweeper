@@ -16,8 +16,7 @@ class Text : public Drawable
 {
 public:
     static Text* Create(const std::string& _text, FontType _font_type);
-    ~Text();
-    static void  Destroy();
+    static void Destroy(Text* _text);
 
     void set_position(const glm::vec3& _pos);
     void set_center(const glm::vec3& _pos);

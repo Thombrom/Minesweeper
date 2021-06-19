@@ -33,6 +33,8 @@ void MenuLayer::on_push()
 void MenuLayer::on_pop()
 {
     std::cout << "Menu Layer Popped" << std::endl;
+    for (size_t itt = 0; itt < sizeof(button_panel) / sizeof(Button*); itt++)
+        Button::Destroy(button_panel[itt]);
 }
 
 void MenuLayer::on_update()

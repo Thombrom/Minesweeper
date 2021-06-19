@@ -5,6 +5,14 @@ Text* Text::Create(const std::string& _text, FontType _font_type)
     return new Text(_text, _font_type);
 }
 
+void Text::Destroy(Text* _text)
+{
+    glDeleteBuffers(1, &(_text->m_VBO));
+    glDeleteVertexArrays(1, &(_text->m_VAO));
+
+    delete _text;
+}
+
 Text::Text(const std::string& _text, FontType _font_type) 
     : m_text(_text) {
     // Initialize Values
@@ -33,12 +41,6 @@ Text::Text(const std::string& _text, FontType _font_type)
 	// Reset buffers
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-}
-
-Text::~Text()
-{
-    glDeleteVertexArrays(1, &m_VAO);
-    glDeleteBuffers(1, &m_VBO);
 }
 
 void Text::draw(const glm::mat4& _view)
