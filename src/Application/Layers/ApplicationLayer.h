@@ -8,7 +8,6 @@
 #include "Application/Layer.h"
 
 #include "Render/Drawable/Text.h"
-#include "Render/Drawable/Button.h"
 
 struct ApplicationData
 {

@@ -5,7 +5,7 @@
 
 enum class ShaderType
 {
-	TEXT, BUTTON
+	TEXT, BORDER_RECT
 };
 
 class ShaderLibrary
@@ -41,10 +41,10 @@ public:
         ShaderLibrary::Load(shader, ShaderType::TEXT);
 
         // Initialize button shader
-        shader.set_vertex_shader("resources/shaders/button.vs");
-        shader.set_fragment_shader("resources/shaders/button.fs");
+        shader.set_vertex_shader("resources/shaders/border_rect.vs");
+        shader.set_fragment_shader("resources/shaders/border_rect.fs");
         shader.compile();
-        ShaderLibrary::Load(shader, ShaderType::BUTTON);
+        ShaderLibrary::Load(shader, ShaderType::BORDER_RECT);
     }
 };
 

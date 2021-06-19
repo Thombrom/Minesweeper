@@ -1,28 +1,25 @@
-#include "Button.h"
+#pragma once
+#include "BorderRect.h"
 
-Button* Button::Create(const glm::vec3 _position, const glm::vec2 _size, const std::string& _text, unsigned int _border)
+BorderRect* BorderRect::Create(const glm::vec3 _position, const glm::vec2 _size, unsigned int _border)
 {
-    return new Button(_position, _size, _text, _border);
+    return new BorderRect(_position, _size, _border);
 }
 
-void Button::Destroy(Button* _button)
+void BorderRect::Destroy(BorderRect* _rect)
 {
-    glDeleteBuffers(1, &(_button->m_VBO));
-    glDeleteVertexArrays(1, &(_button->m_VAO));
-
-    Text::Destroy(_button->m_text);
-    delete _button;
+    glDeleteBuffers(1, &(_rect->m_VBO));
+    glDeleteVertexArrays(1, &(_rect->m_VAO));
+    delete _rect;
 }
 
-Button::Button(const glm::vec3 _position, const glm::vec2 _size, const std::string& _text, unsigned int _border)
+BorderRect::BorderRect(const glm::vec3 _position, const glm::vec2 _size, unsigned int _border)
     : m_size(_size), m_position(_position), m_border(_border) {
 
-    m_text = Text::Create(_text, FontType::ARIAL);
-    m_text->set_center(glm::ivec3(_position.x + _size.x / 2, _position.y + _size.y / 2, 0.002f + _position.z));
-    m_shader = ShaderLibrary::Retrieve(ShaderType::BUTTON);
+    m_shader = ShaderLibrary::Retrieve(ShaderType::BORDER_RECT);
 
     // Setup default values
-    m_color_button = glm::vec3(0.0f, 0.0f, 0.0f);
+    m_color_inside = glm::vec3(0.0f, 0.0f, 0.0f);
     m_color_border = glm::vec3(1.0f, 1.0f, 1.0f);
 
 
@@ -42,7 +39,7 @@ Button::Button(const glm::vec3 _position, const glm::vec2 _size, const std::stri
     glBindVertexArray(0);
 }
 
-void Button::buffer_data()
+void BorderRect::buffer_data()
 {
     glBindVertexArray(m_VAO);
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
@@ -51,9 +48,9 @@ void Button::buffer_data()
     float x_pos = m_position.x;
     float y_pos = m_position.y;
     float z_pos = m_position.z;
-    float w     = m_size.x;
-    float h     = m_size.y;
-    float b     = m_border;
+    float w = m_size.x;
+    float h = m_size.y;
+    float b = m_border;
 
     float vertex_data[6 * 6 * 2] = {
         x_pos,      y_pos,      0.0f + z_pos,
@@ -71,18 +68,18 @@ void Button::buffer_data()
         m_color_border.x, m_color_border.y, m_color_border.z,
 
         x_pos + b,      y_pos + b,      0.001f + z_pos,
-        m_color_button.x, m_color_button.y, m_color_button.z,
+        m_color_inside.x, m_color_inside.y, m_color_inside.z,
         x_pos + w - b,  y_pos + b,      0.001f + z_pos,
-        m_color_button.x, m_color_button.y, m_color_button.z,
+        m_color_inside.x, m_color_inside.y, m_color_inside.z,
         x_pos + w - b,  y_pos + h - b,  0.001f + z_pos,
-        m_color_button.x, m_color_button.y, m_color_button.z,
+        m_color_inside.x, m_color_inside.y, m_color_inside.z,
 
         x_pos + b,       y_pos + b,      0.001f + z_pos,
-        m_color_button.x, m_color_button.y, m_color_button.z,
+        m_color_inside.x, m_color_inside.y, m_color_inside.z,
         x_pos + b,       y_pos + h - b,  0.001f + z_pos,
-        m_color_button.x, m_color_button.y, m_color_button.z,
+        m_color_inside.x, m_color_inside.y, m_color_inside.z,
         x_pos + w - b,   y_pos + h - b,  0.001f + z_pos,
-        m_color_button.x, m_color_button.y, m_color_button.z,
+        m_color_inside.x, m_color_inside.y, m_color_inside.z,
     };
 
     // Buffer Data
@@ -91,7 +88,7 @@ void Button::buffer_data()
     glBindVertexArray(0);
 }
 
-void Button::draw(const glm::mat4& _view)
+void BorderRect::draw(const glm::mat4& _view)
 {
     // Render Button Shape
     m_shader.use();
@@ -101,22 +98,18 @@ void Button::draw(const glm::mat4& _view)
     glBindVertexArray(m_VAO);
     glDrawArrays(GL_TRIANGLES, 0, 12);
     glBindVertexArray(0);
-
-    // Render Button Text
-    m_text->draw(_view);
 }
 
-void Button::set_position(const glm::vec3& _position)
+void BorderRect::set_position(const glm::vec3& _position)
 {
     if (m_position == _position)
         return;
 
     m_position = _position;
-    m_text->set_position(_position + glm::vec3(0.0f, 0.0f, 0.002f));
     buffer_data();
 }
 
-void Button::set_size(const glm::vec2& _size)
+void BorderRect::set_size(const glm::vec2& _size)
 {
     if (m_size == _size)
         return;
@@ -125,7 +118,7 @@ void Button::set_size(const glm::vec2& _size)
     buffer_data();
 }
 
-void Button::set_border(unsigned int _border)
+void BorderRect::set_border(unsigned int _border)
 {
     if (m_border == _border)
         return;
@@ -134,12 +127,7 @@ void Button::set_border(unsigned int _border)
     buffer_data();
 }
 
-void Button::set_text_scale(float _scale)
-{
-    m_text->set_scale(glm::vec2(_scale));
-}
-
-void Button::set_border_color(const glm::vec3& _border_color)
+void BorderRect::set_border_color(const glm::vec3& _border_color)
 {
     if (m_color_border == _border_color)
         return;
@@ -148,43 +136,38 @@ void Button::set_border_color(const glm::vec3& _border_color)
     buffer_data();
 }
 
-void Button::set_button_color(const glm::vec3& _button_color)
+void BorderRect::set_inside_color(const glm::vec3& _button_color)
 {
-    if (m_color_button == _button_color)
+    if (m_color_inside == _button_color)
         return;
 
-    m_color_button = _button_color;
+    m_color_inside = _button_color;
     buffer_data();
 }
 
-void Button::set_text_color(const glm::vec3& _text_color)
-{
-    m_text->set_color(_text_color);
-}
-
-bool Button::mouse_inside()
+bool BorderRect::mouse_inside()
 {
     float x, y;
     x = Input::MousePosX();
     y = Input::MousePosY();
 
     return m_position.x < x && m_position.x + m_size.x > x &&
-           m_position.y < y && m_position.y + m_size.y > y;
+        m_position.y < y && m_position.y + m_size.y > y;
 }
 
-bool Button::mouse_outside()
+bool BorderRect::mouse_outside()
 {
     return !mouse_inside();
 }
 
-bool Button::mouse_press()
+bool BorderRect::mouse_press()
 {
     bool res = (Input::Key(MouseCode::Button0) != m_mouse_press) && !m_mouse_press;
     m_mouse_press = Input::Key(MouseCode::Button0);
     return res && mouse_inside();
 }
 
-bool Button::mouse_release()
+bool BorderRect::mouse_release()
 {
     bool res = (Input::Key(MouseCode::Button0) != m_mouse_press) && m_mouse_press;
     m_mouse_press = Input::Key(MouseCode::Button0);

@@ -2,17 +2,25 @@
 
 MenuLayer::MenuLayer(Application* _app, uint32_t _position)
     : Layer(_app, _position) {
-
-    button_panel[0] = Button::Create(glm::vec3(-200.0f, 60.0f, 0.0f), glm::vec2(400.0f, 80.0f), "Play Game", 2);
-    button_panel[1] = Button::Create(glm::vec3(-200.0f, -40.0f, 0.0f), glm::vec2(400.0f, 80.0f), "Settings", 2);
-    button_panel[2] = Button::Create(glm::vec3(-200.0f, -140.0f, 0.0f), glm::vec2(400.0f, 80.0f), "Exit", 2);
+    
+    std::string texts[3] = {
+        "Play Game",
+        "Settings",
+        "Exit Game"
+    };
 
     // Style buttons
-    for (size_t itt = 0; itt < sizeof(button_panel) / sizeof(Button*); itt++)
+    for (size_t itt = 0; itt < sizeof(button_panel) / sizeof(TextButton); itt++)
     {
-        button_panel[itt]->set_border_color(glm::vec3(0.0f, 1.0f, 0.0f));
-        button_panel[itt]->set_button_color(glm::vec3(0.0f, 0.0f, 0.0f));
-        button_panel[itt]->set_text_color(glm::vec3(0.0f, 1.0f, 0.0f));
+        button_panel[itt] = TextButton{
+            BorderRect::Create(glm::vec3(-200.0f, 60.0f - 100.0f * itt, 0.0f), glm::vec2(400.0f, 80.0f), 2),
+            Text::Create(texts[itt], FontType::ARIAL),
+        };
+
+        button_panel[itt].text->set_center(glm::vec3(0.0f, 100.0f - 100.0f * itt, 0.01f));
+        button_panel[itt].rect->set_border_color(glm::vec3(0.0f, 1.0f, 0.0f));
+        button_panel[itt].rect->set_inside_color(glm::vec3(0.0f, 0.0f, 0.0f));
+        button_panel[itt].text->set_color(glm::vec3(0.0f, 1.0f, 0.0f));
     }
 
     button_click_event[0] = InternalEventType::CHANGE_START_GAME;
@@ -33,27 +41,31 @@ void MenuLayer::on_push()
 void MenuLayer::on_pop()
 {
     std::cout << "Menu Layer Popped" << std::endl;
-    for (size_t itt = 0; itt < sizeof(button_panel) / sizeof(Button*); itt++)
-        Button::Destroy(button_panel[itt]);
+    for (size_t itt = 0; itt < sizeof(button_panel) / sizeof(TextButton); itt++)
+    {
+        BorderRect::Destroy(button_panel[itt].rect);
+        Text::Destroy(button_panel[itt].text);
+    }
 }
 
 void MenuLayer::on_update()
 {
-    for (size_t itt = 0; itt < sizeof(button_panel) / sizeof(Button*); itt++) {
-        if (button_panel[itt]->mouse_inside()) {
-            button_panel[itt]->set_button_color(glm::vec3(0.0f, 1.0f, 0.0f));
-            button_panel[itt]->set_text_color(glm::vec3(0.0f, 0.0f, 0.0f));
+    for (size_t itt = 0; itt < sizeof(button_panel) / sizeof(TextButton); itt++) {
+        if (button_panel[itt].rect->mouse_inside()) {
+            button_panel[itt].rect->set_inside_color(glm::vec3(0.0f, 1.0f, 0.0f));
+            button_panel[itt].text->set_color(glm::vec3(0.0f, 0.0f, 0.0f));
         }
         else {
-            button_panel[itt]->set_button_color(glm::vec3(0.0f, 0.0f, 0.0f));
-            button_panel[itt]->set_text_color(glm::vec3(0.0f, 1.0f, 0.0f));
+            button_panel[itt].rect->set_inside_color(glm::vec3(0.0f, 0.0f, 0.0f));
+            button_panel[itt].text->set_color(glm::vec3(0.0f, 1.0f, 0.0f));
         }
 
-        if (button_panel[itt]->mouse_press()) {
+        if (button_panel[itt].rect->mouse_press()) {
             app->event_callback(new InternalEvent(button_click_event[itt], 0));
         }
 
-        button_panel[itt]->draw(app->get_window()->get_orthographic());
+        button_panel[itt].rect->draw(app->get_window()->get_orthographic());
+        button_panel[itt].text->draw(app->get_window()->get_orthographic());
     }
 }
 

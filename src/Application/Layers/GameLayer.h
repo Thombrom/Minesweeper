@@ -8,7 +8,8 @@
 #include "Application/Layer.h"
 
 #include "Render/Drawable/Text.h"
-#include "Render/Drawable/Button.h"
+//#include "Render/Drawable/Button.h"
+#include "Render/Drawable/BorderRect.h"
 
 #include "Game/Minesweeper.h"
 
@@ -25,8 +26,16 @@ public:
 	void on_pop() override;
 
 private:
-	Button* back_button;
+	struct TextButton {
+		BorderRect* rect;
+		Text*		text;
+	};
+	
+	// Graphics
+	TextButton back_button;
+	BorderRect* game_frame;
 
+	// Game
 	MineSweeper game;
 };
 

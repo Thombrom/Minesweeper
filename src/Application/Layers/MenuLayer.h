@@ -8,7 +8,8 @@
 #include "Application/Layer.h"
 
 #include "Render/Drawable/Text.h"
-#include "Render/Drawable/Button.h"
+#include "Render/Drawable/BorderRect.h"
+//#include "Render/Drawable/Button.h"
 
 class MenuLayer : public Layer
 {
@@ -23,6 +24,11 @@ public:
 	void on_pop() override;
 
 private:
-    Button*				button_panel[3];
+	struct TextButton {
+		BorderRect* rect;
+		Text*		text;
+	};
+
+	TextButton			button_panel[3];
 	InternalEventType	button_click_event[3];
 };
