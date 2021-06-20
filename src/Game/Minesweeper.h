@@ -32,6 +32,9 @@ public:
 	void reveal(uint32_t _x, uint32_t _y);
 	SweeperState get_state();
 
+	uint8_t* get_values() { return board_values; }
+	uint8_t* get_reveal() { return board_revelations; }
+
 private:
 	uint32_t clamp(uint32_t _value, uint32_t _min, uint32_t _max);
 	void increase_cell(uint32_t _x, uint32_t _y);

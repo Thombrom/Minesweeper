@@ -18,8 +18,8 @@ public:
     static float MousePosX() { return cursor_pos_x; }
     static float MousePosY() { return cursor_pos_y; }
 
-    static bool WindowWidth() { return window_width; }
-    static bool WindowHeight() { return window_height; }
+    static uint32_t WindowWidth() { return Input::window_width; }
+    static uint32_t WindowHeight() { return Input::window_height; }
 
 private:
     static bool key_state[350];

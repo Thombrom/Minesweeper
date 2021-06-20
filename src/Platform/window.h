@@ -6,6 +6,7 @@
 #include <gtc/matrix_transform.hpp>
 
 #include "Event/Event.h"
+#include "Application/Input.h"
 
 /*
 	Struct that has to do with all the properties of the 

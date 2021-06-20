@@ -5,7 +5,7 @@
 
 enum class ShaderType
 {
-	TEXT, BORDER_RECT
+	TEXT, BORDER_RECT, TILE
 };
 
 class ShaderLibrary
@@ -45,6 +45,13 @@ public:
         shader.set_fragment_shader("resources/shaders/border_rect.fs");
         shader.compile();
         ShaderLibrary::Load(shader, ShaderType::BORDER_RECT);
+
+        // Initialize tile shader
+        shader.set_vertex_shader("resources/shaders/tile.vs");
+        shader.set_fragment_shader("resources/shaders/tile.fs");
+        shader.set_geometry_shader("resources/shaders/tile.gs");
+        shader.compile();
+        ShaderLibrary::Load(shader, ShaderType::TILE);
     }
 };
 

@@ -10,7 +10,7 @@ ApplicationLayer::ApplicationLayer(Application* _app)
 	app->set_data(appdata);
 
     // Initialize menu
-	app->event_callback(new InternalEvent(InternalEventType::CHANGE_START_MENU, 0));
+	app->event_callback(new InternalEvent(InternalEventType::CHANGE_START_GAME, 0));
 }
 
 ApplicationLayer::~ApplicationLayer()

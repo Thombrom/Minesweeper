@@ -8,10 +8,10 @@
 #include "Application/Layer.h"
 
 #include "Render/Drawable/Text.h"
-//#include "Render/Drawable/Button.h"
 #include "Render/Drawable/BorderRect.h"
 
 #include "Game/Minesweeper.h"
+#include "Game/TilePanel.h"
 
 class GameLayer : public Layer
 {
@@ -32,8 +32,9 @@ private:
 	};
 	
 	// Graphics
-	TextButton back_button;
+	TextButton  back_button;
 	BorderRect* game_frame;
+	TilePanel*  game_tiles;
 
 	// Game
 	MineSweeper game;

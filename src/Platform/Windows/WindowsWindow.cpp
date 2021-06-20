@@ -62,6 +62,7 @@ WindowsWindow::WindowsWindow(const WindowProperties& _props)
 
 	hook_events();
 	glViewport(0, 0, _props.width, _props.height);
+	Input::RecordEvent(WindowResizeEvent(_props.width, _props.height));
 
     // Default variable initialization
     clear_color = glm::vec4(0.2f, 0.3f, 0.3f, 1.0f);
