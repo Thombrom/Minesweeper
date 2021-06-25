@@ -1,4 +1,3 @@
-#pragma once
 #include "BorderRect.h"
 
 BorderRect* BorderRect::Create(const glm::vec3 _position, const glm::vec2 _size, unsigned int _border)

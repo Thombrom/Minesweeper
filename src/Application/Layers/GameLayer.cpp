@@ -73,6 +73,6 @@ void GameLayer::on_update()
 	back_button.text->draw(view);
 
 	// Draw Game
-	game_frame->draw(view);
+    game_frame->draw(view);
 	game_tiles->draw(view);
 }

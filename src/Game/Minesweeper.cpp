@@ -54,8 +54,8 @@ void MineSweeper::distribute_mines()
 	while (num_mines > 0)
 	{
 		uint32_t x, y;
-		x = rand() * size_x / RAND_MAX;
-		y = rand() * size_y / RAND_MAX;
+		x = (float)rand() / RAND_MAX * size_x;
+		y = (float)rand() / RAND_MAX * size_y;
 
 		if (board_values[y * size_x + x] != 10)
 		{

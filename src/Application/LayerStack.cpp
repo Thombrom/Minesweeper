@@ -27,6 +27,7 @@ void LayerStack::push_layer(LayerPtr _layer)
 	cond->m_next = new Node();
 	cond->m_next->m_layer  = _layer;
 	cond->m_next->m_before = cond;
+    _layer->on_push();
 }
 
 void LayerStack::pop_layer()

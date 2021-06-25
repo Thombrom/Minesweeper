@@ -4,7 +4,7 @@ out vec4 FragColor;
 in GS_OUT {
     vec2 tex_coord;
     vec3 color;
-    bool has_tex;
+    flat bool has_tex;
 } fs_in;
 
 void main()
