@@ -56,7 +56,7 @@ void MineSweeper::distribute_mines()
 		return;	// Failsave for infinite loop
 
 	uint32_t remaining_mines = num_mines;
-	while (num_mines > 0)
+	while (remaining_mines > 0)
 	{
 		uint32_t x, y;
 		x = (float)rand() / RAND_MAX * size_x;
@@ -65,7 +65,7 @@ void MineSweeper::distribute_mines()
 		if (board_values[y * size_x + x] != 10)
 		{
 			board_values[y * size_x + x] = 10;
-			num_mines--;
+			remaining_mines--;
 
 			increase_cell(x - 1, y - 1); increase_cell(x - 1, y + 0); increase_cell(x - 1, y + 1);
 			increase_cell(x + 0, y - 1); increase_cell(x + 0, y + 0); increase_cell(x + 0, y + 1);
@@ -85,16 +85,23 @@ void MineSweeper::increase_cell(uint32_t _x, uint32_t _y)
 SweeperState MineSweeper::get_state()
 {
 	uint32_t uncovered = 0;
+    uint32_t marked = 0;
 
 	// Check if mine revealed
 	for (size_t itt = 0; itt < size_x * size_y; itt++)
 	{
-		if (board_revelations[itt] && board_values[itt] == 10)
+		if (board_revelations[itt] == 2 && board_values[itt] == 10)
 			return SweeperState::LOST;
 
-		if (!board_revelations[itt] && board_values[itt] < 10)
+        if (board_revelations[itt] == 1 && board_values[itt] == 10)
+            marked++;
+
+		if (board_revelations[itt] != 2 && board_values[itt] < 10)
 			uncovered++;
 	}
+
+    if (marked == num_mines)
+        return SweeperState::WON;
 
 	if (uncovered == 0)
 		return SweeperState::WON;
