@@ -27,7 +27,8 @@ project "Minesweeper"
 	{
 		"src/**.h",
 		"src/**.cpp",
-		"vendor/glad/src/**.c"
+		"vendor/glad/src/**.c",
+        "vendor/stb/stb_image.cpp"
 	}
 
 	libdirs 
@@ -46,6 +47,7 @@ project "Minesweeper"
 		"vendor/glad/include",
 		"vendor/freetype/include",
 		"vendor/glm/include",
+        "vendor/stb",
 		"%{IncludeDir.GLFW}"
 	}
 
