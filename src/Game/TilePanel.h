@@ -9,11 +9,15 @@
 #include "Render/Shader/ShaderLibrary.h"
 #include "Render/Drawable.h"
 
+#include "Event/Event.h"
+
 class TilePanel : public Drawable
 {
 public:
 	static TilePanel* Create(const glm::vec2 _board_size, uint8_t* _values, uint8_t* _reveal);
 	static void Destroy(TilePanel* _panel);
+
+    void reload_state();
 
 	void set_view(const glm::vec2& _pos, const glm::vec2& _size);
 	void draw(const glm::mat4& _view) override;

@@ -76,7 +76,7 @@ void TilePanel::buffer_state_data()
     uint32_t buffer_size = m_board_size.x * m_board_size.y;
     state_data = new float[buffer_size];
     for (size_t itt = 0; itt < buffer_size; itt++)
-        state_data[itt] = itt % 3;
+        state_data[itt] = 0.00f;
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * buffer_size, state_data, GL_DYNAMIC_DRAW);
     glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(float), (void*)0);
@@ -126,18 +126,14 @@ void TilePanel::load_texture() {
     stbi_image_free(data);
 }
 
-int TilePanel::pixelpos_to_tilepos(glm::vec2 _pos) {
-    float yoffset = viewport.y + viewport.w / 2 - Input::WindowHeight() / 2;
-    glm::mat4 transform = glm::mat4(1.0f);
-    transform = glm::translate(transform, glm::vec3(26 * m_board_size.x, 26 * m_board_size.y, 0.0f));
-    transform = glm::translate(transform, glm::vec3(0.0f, -1 * yoffset, 0.0f));
-    glm::vec4 new_pos = transform * glm::vec4(_pos.x, _pos.y, 0.0f, 1.0f);
+void TilePanel::reload_state() {
+    uint32_t buffer_size = m_board_size.x * m_board_size.y;
+    for (size_t itt = 0; itt < buffer_size; itt++)
+        state_data[itt] = (float)m_reveal[itt];
 
-    // Check bounds
-    if (new_pos.x < 0 || new_pos.x > m_board_size.x * 52 || new_pos.y < 0 || new_pos.y > m_board_size.y * 52)
-        return -1;
-
-    return std::floor(new_pos.x / 52) + m_board_size.x * std::floor(new_pos.y / 52);
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO[1]);
+    glBufferData(GL_ARRAY_BUFFER, buffer_size * sizeof(float), state_data, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void TilePanel::set_view(const glm::vec2& _pos, const glm::vec2& _size)
@@ -153,8 +149,6 @@ void TilePanel::set_view(const glm::vec2& _pos, const glm::vec2& _size)
 
 void TilePanel::draw(const glm::mat4& _trans)
 {
-    std::cout << pixelpos_to_tilepos(glm::vec2(Input::MousePosX(), Input::MousePosY())) << std::endl;
-
 	shader.use();
 	shader.set_mat4("view", view * _trans);
 	shader.set_vec3("border_color", 0.0f, 1.0f, 0.0f);

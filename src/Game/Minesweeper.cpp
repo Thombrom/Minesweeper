@@ -33,7 +33,7 @@ void MineSweeper::reveal(uint32_t _x, uint32_t _y)
 	if (_x >= size_x || _y >= size_y || board_revelations[_y * size_x + _x])
 		return;	// Out of bounds
 
-	board_revelations[_y * size_x + _x] = 1;
+	board_revelations[_y * size_x + _x] = 2;
 	uint8_t value = board_values[_y * size_x + _x];
 
 	if (value != 0)	// i.e blank
@@ -43,6 +43,11 @@ void MineSweeper::reveal(uint32_t _x, uint32_t _y)
 	reveal(_x - 1, _y - 1); reveal(_x - 1, _y + 0); reveal(_x - 1, _y + 1);
 	reveal(_x + 0, _y - 1); reveal(_x + 0, _y + 0); reveal(_x + 0, _y + 1);
 	reveal(_x + 1, _y - 1); reveal(_x + 1, _y + 0); reveal(_x + 1, _y + 1);
+}
+
+void MineSweeper::mark(uint32_t _x, uint32_t _y) {
+    uint8_t* pos = board_revelations + _y * size_x + _x;
+    *pos = *pos == 1 ? 0 : 1;
 }
 
 void MineSweeper::distribute_mines()

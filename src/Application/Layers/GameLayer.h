@@ -26,6 +26,9 @@ public:
 	void on_pop() override;
 
 private:
+    int pixelpos_to_tilepos(glm::vec2 _pos);
+
+private:
 	struct TextButton {
 		BorderRect* rect;
 		Text*		text;

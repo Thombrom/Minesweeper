@@ -30,10 +30,15 @@ public:
 	void draw();
 
 	void reveal(uint32_t _x, uint32_t _y);
+    void mark(uint32_t _x, uint32_t _y);
+    uint8_t get_reveal_state(uint32_t _x, uint32_t _y) { return board_revelations[_y * size_x + _x]; }
 	SweeperState get_state();
 
 	uint8_t* get_values() { return board_values; }
 	uint8_t* get_reveal() { return board_revelations; }
+
+    uint32_t get_size_x() { return size_x; }
+    uint32_t get_size_y() { return size_y; }
 
 private:
 	uint32_t clamp(uint32_t _value, uint32_t _min, uint32_t _max);
