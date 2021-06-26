@@ -47,7 +47,10 @@ void GameLayer::on_push()
 
 void GameLayer::on_event(Event& _event)
 {
-	
+	EventDispatcher dispatcher(_event);
+    dispatcher.execute<WindowResizeEvent>([this](WindowResizeEvent& e)->bool {
+        game_tiles->set_view(glm::vec3(-498.0f, -198.0f, 0.01f), glm::vec2(996.0f, 496.0f));
+    });
 }
 
 void GameLayer::on_update()
@@ -67,12 +70,13 @@ void GameLayer::on_update()
 		app->event_callback(new InternalEvent(InternalEventType::CHANGE_START_MENU, 0));
 
 	glm::mat4 view = app->get_window()->get_orthographic();
-
-	// Draw Button
 	back_button.rect->draw(view);
 	back_button.text->draw(view);
-
-	// Draw Game
     game_frame->draw(view);
-	game_tiles->draw(view);
+
+
+    // Draw Tiles
+    glm::mat4 trans = glm::mat4(1);
+    trans = glm::translate(trans, glm::vec3(0, 0, 0));
+	game_tiles->draw(trans);
 }

@@ -5,7 +5,7 @@ ApplicationLayer::ApplicationLayer(Application* _app)
 {
 	// Set application data
 	ApplicationData* appdata = new ApplicationData{
-		10, 10, 10
+		11, 10, 20
 	};
 	app->set_data(appdata);
 

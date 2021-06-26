@@ -25,6 +25,9 @@ void Application::initialize()
     // Initialize Libraries
     ShaderLibrary::Initialize();
     FontLibrary::Initialize();
+
+    // Seed RNG
+    srand(time(NULL));
 }
 
 void Application::event_callback(Event* _event)

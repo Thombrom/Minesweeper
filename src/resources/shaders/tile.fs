@@ -7,8 +7,16 @@ in GS_OUT {
     flat bool has_tex;
 } fs_in;
 
+uniform sampler2D tex_map;
+
 void main()
 {
-    FragColor = vec4(fs_in.color, fs_in.has_tex ? 0 : 1);
+    if (fs_in.has_tex) {
+        FragColor = texture(tex_map, fs_in.tex_coord);
+    } else {
+        FragColor = vec4(fs_in.color, 1.0f);
+    }
+    //FragColor = vec4(fs_in.color, 1.0f);
+    //FragColor = vec4(fs_in.color, fs_in.has_tex ? 0 : 1);
     //FragColor = vec4(0.0f, 1.0f, 0.0f, 1.0f);
 }
