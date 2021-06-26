@@ -70,20 +70,41 @@ void GameLayer::on_event(Event& _event)
 
             if (e.get_mouse_code() == MouseCode::Button1 && game.get_reveal_state(pos_x, pos_y) != 2)
             {
-                std::cout << "Button 1 Pressed on " << res << std::endl;
+                std::cout << "Button 1 Pressed on " << res << " marking it as flag" << std::endl;
                 game.mark(pos_x, pos_y);
             }
 
             if (e.get_mouse_code() == MouseCode::Button0 && game.get_reveal_state(pos_x, pos_y) == 0)
             {
-                std::cout << "Button 0 Pressed on " << res << std::endl;
+                std::cout << "Button 0 Pressed on " << res << " revealing the value" << std::endl;
                 game.reveal(pos_x, pos_y);
             }
 
             game_tiles->reload_state();
+
+            if (game.get_state() == SweeperState::WON) {
+                std::cout << "GAME WON - Sending event" << std::endl;
+                app->event_callback(new InternalEvent(InternalEventType::GAME_END, (void*)1));
+            }
+
+            if (game.get_state() == SweeperState::LOST) {
+                std::cout << "GAME LOST - Sending event" << std::endl;
+                app->event_callback(new InternalEvent(InternalEventType::GAME_END, (void*)2));
+            }
+
             return true;
         });
     }
+
+    dispatcher.execute<InternalEvent>([this](InternalEvent& _event)->bool {
+        if (_event.get_type() == InternalEventType::GAME_END) {
+
+            app->push_layer(new GameEndOverlay(app, get_position() + 1, (uintptr_t)_event.get_data()));
+            return true;
+        }
+
+        return false;
+    });
 }
 
 void GameLayer::on_update()

@@ -83,7 +83,7 @@ void ApplicationLayer::change_start_menu()
 void ApplicationLayer::change_start_game()
 {
 	app->pop_after(1);						    // Purge all layers above 1
-	app->push_layer(new GameEndOverlay(app, 1, 1));		// Change to the menu layer
+	app->push_layer(new GameLayer(app, 1));		// Change to the menu layer
 }
 
 /*void ApplicationLayer::change_start_settings()

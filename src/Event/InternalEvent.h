@@ -6,6 +6,8 @@ enum class InternalEventType
 	CHANGE_START_GAME,
 	CHANGE_START_SETTINGS,
 	CHANGE_EXIT_GAME,
+
+    GAME_END,
 	EXIT_APP
 };
 

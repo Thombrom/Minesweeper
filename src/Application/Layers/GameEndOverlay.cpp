@@ -10,7 +10,7 @@ GameEndOverlay::GameEndOverlay(Application* _app, uint32_t _pos, uint32_t _state
     if (_state == 2)
         msg = "You Lost!";
     message = Text::Create(msg, FontType::ARIAL);
-    message->set_center(glm::vec3(0.0f, 50.0f, 0.11f));
+    message->set_center(glm::vec3(0.0f, 50.0f, 0.15f));
     message->set_color(glm::vec3(0.0f, 1.0f, 0.0f));
 
     // Create border
@@ -41,7 +41,10 @@ void GameEndOverlay::on_pop() {
 
 void GameEndOverlay::on_event(Event& _event)
 {
-
+    EventDispatcher dispatcher(_event);
+    dispatcher.execute<MouseButtonPressedEvent>([this](MouseButtonPressedEvent& _event)->bool {
+        return true;    // Block mouse button events
+    });
 }
 
 void GameEndOverlay::on_update()
@@ -54,8 +57,8 @@ void GameEndOverlay::on_update()
 
     glm::mat4 view = app->get_window()->get_orthographic();
 
-    message->draw(view);
     border->draw(view);
+    message->draw(view);
 
     menu_button->draw(view);
     redo_button->draw(view);
