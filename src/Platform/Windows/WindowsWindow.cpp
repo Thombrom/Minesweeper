@@ -41,6 +41,7 @@ bool WindowsWindow::init_glad()
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glEnable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     return true;
@@ -182,7 +183,7 @@ void WindowsWindow::update()
 	glfwPollEvents();
 	glfwSwapBuffers(m_window);
 	glClearColor(clear_color.r, clear_color.g, clear_color.b, clear_color.a);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 uint32_t WindowsWindow::get_height() const
