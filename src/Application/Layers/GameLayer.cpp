@@ -76,6 +76,7 @@ void GameLayer::on_event(Event& _event)
 
             if (e.get_mouse_code() == MouseCode::Button0 && game.get_reveal_state(pos_x, pos_y) == 0)
             {
+                game_distribute_mines(glm::vec2(pos_x, pos_y));
                 std::cout << "Button 0 Pressed on " << res << " revealing the value" << std::endl;
                 game.reveal(pos_x, pos_y);
             }
@@ -136,7 +137,8 @@ void GameLayer::on_update()
 	game_tiles->draw(trans);
 }
 
-int GameLayer::pixelpos_to_tilepos(glm::vec2 _pos) {
+int GameLayer::pixelpos_to_tilepos(glm::vec2 _pos) 
+{
 	ApplicationData* appdata = (ApplicationData*)app->get_data();
     glm::vec2 board_size = glm::vec2(appdata->game_size_x, appdata->game_size_y);
     float yoffset = 50;
@@ -151,4 +153,12 @@ int GameLayer::pixelpos_to_tilepos(glm::vec2 _pos) {
         return -1;
 
     return std::floor(new_pos.x / 52) + board_size.x * std::floor(new_pos.y / 52);
+}
+
+void GameLayer::game_distribute_mines(const glm::vec2& _pos)
+{
+    if (!game.mines_distributed()) {
+        game.distribute_mines((uint32_t)_pos.x, (uint32_t)_pos.y);
+        game_tiles->buffer_value_data();
+    }
 }

@@ -27,6 +27,7 @@ public:
 
 private:
     int pixelpos_to_tilepos(glm::vec2 _pos);
+    void game_distribute_mines(const glm::vec2& _pos);
 
 private:
 	struct TextButton {

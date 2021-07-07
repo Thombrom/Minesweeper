@@ -18,6 +18,7 @@ public:
 	static void Destroy(TilePanel* _panel);
 
     void reload_state();
+    void buffer_value_data();
 
 	void set_view(const glm::vec2& _pos, const glm::vec2& _size);
 	void draw(const glm::mat4& _view) override;
@@ -27,7 +28,6 @@ protected:
 
 	void buffer_pos_data();
     void buffer_state_data();
-    void buffer_value_data();
     void load_texture();
 
     int pixelpos_to_tilepos(glm::vec2 _pos);

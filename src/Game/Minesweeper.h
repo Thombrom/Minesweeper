@@ -26,7 +26,7 @@ public:
 	~MineSweeper();
 
 	void initialize(uint32_t _size_x, uint32_t _size_y, uint32_t _mine_count);
-	void distribute_mines();
+	void distribute_mines(uint32_t _x, uint32_t _y);
 	void draw();
 
 	void reveal(uint32_t _x, uint32_t _y);
@@ -39,6 +39,7 @@ public:
 
     uint32_t get_size_x() { return size_x; }
     uint32_t get_size_y() { return size_y; }
+    bool mines_distributed() { return distributed; }
 
 private:
 	uint32_t clamp(uint32_t _value, uint32_t _min, uint32_t _max);
@@ -49,6 +50,7 @@ private:
 	uint32_t size_x;
 	uint32_t size_y;
 	uint32_t num_mines;
+    bool distributed;
 
 	uint8_t* board_values;
 	uint8_t* board_revelations;

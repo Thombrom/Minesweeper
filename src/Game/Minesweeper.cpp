@@ -16,6 +16,7 @@ void MineSweeper::initialize(uint32_t _size_x, uint32_t _size_y, uint32_t _mine_
 	size_x		= _size_x;
 	size_y		= _size_y;
 	num_mines	= _mine_count;
+    distributed = false;
 
 	// If we want to combine these we could use high bit as revealed
 	// but we are not in the old age of computers and memory is not an issue 
@@ -25,7 +26,6 @@ void MineSweeper::initialize(uint32_t _size_x, uint32_t _size_y, uint32_t _mine_
 
 	memset(board_values, 0, board_size);
 	memset(board_revelations, 0, board_size);
-	distribute_mines();
 }
 
 void MineSweeper::reveal(uint32_t _x, uint32_t _y)
@@ -50,9 +50,10 @@ void MineSweeper::mark(uint32_t _x, uint32_t _y) {
     *pos = *pos == 1 ? 0 : 1;
 }
 
-void MineSweeper::distribute_mines()
+void MineSweeper::distribute_mines(uint32_t _x, uint32_t _y)
 {
-	if (num_mines > size_x * size_y)
+    std::cout << "Distributing Mines: " << _x << " - " << _y << std::endl;
+	if (num_mines > size_x * size_y - 9)
 		return;	// Failsave for infinite loop
 
 	uint32_t remaining_mines = num_mines;
@@ -62,7 +63,8 @@ void MineSweeper::distribute_mines()
 		x = (float)rand() / RAND_MAX * size_x;
 		y = (float)rand() / RAND_MAX * size_y;
 
-		if (board_values[y * size_x + x] != 10)
+		if (board_values[y * size_x + x] != 10
+            && !(y <= (_y + 1) && y >=  (_y - 1) && x <= (_x + 1) && x >= (_x - 1)))
 		{
 			board_values[y * size_x + x] = 10;
 			remaining_mines--;
@@ -72,6 +74,8 @@ void MineSweeper::distribute_mines()
 			increase_cell(x + 1, y - 1); increase_cell(x + 1, y + 0); increase_cell(x + 1, y + 1);
 		}
 	}
+
+    distributed = true;
 }
 
 void MineSweeper::increase_cell(uint32_t _x, uint32_t _y)
