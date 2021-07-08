@@ -10,7 +10,7 @@ ApplicationLayer::ApplicationLayer(Application* _app)
 	app->set_data(appdata);
 
     // Initialize menu
-	app->event_callback(new InternalEvent(InternalEventType::CHANGE_START_GAME, 0));
+	app->event_callback(new InternalEvent(InternalEventType::CHANGE_START_SETTINGS, 0));
 }
 
 ApplicationLayer::~ApplicationLayer()
@@ -43,6 +43,11 @@ void ApplicationLayer::on_event(Event& _event)
 			change_start_game();
 			return true;
 		}
+
+        if (_event.get_type() == InternalEventType::CHANGE_START_SETTINGS) {
+            change_start_settings();
+            return true;
+        }
 		
 		return false;
 	});
@@ -86,10 +91,10 @@ void ApplicationLayer::change_start_game()
 	app->push_layer(new GameLayer(app, 1));		// Change to the menu layer
 }
 
-/*void ApplicationLayer::change_start_settings()
+void ApplicationLayer::change_start_settings()
 {
-	app->pop_layer_all(1);						// Purge all layers above 1
-	app->push_layer(new MenuLayer(app, 1));		// Change to the menu layer
-}*/
+	app->pop_after(1);						// Purge all layers above 1
+	app->push_layer(new SettingsLayer(app, 1));		// Change to the menu layer
+}
 
 

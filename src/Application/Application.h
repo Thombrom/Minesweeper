@@ -51,4 +51,5 @@ private:
 #include "Layers/ApplicationLayer.h"
 #include "Layers/MenuLayer.h"
 #include "Layers/GameLayer.h"
+#include "Layers/SettingsLayer.h"
 #include "Layers/GameEndOverlay.h"
