@@ -83,21 +83,18 @@ void WindowsWindow::hook_events()
 
 		if (_action == GLFW_PRESS)
 		{
-			std::cout << "KeyPressedEvent " << _key << std::endl;
 			props->event_callback(new KeyPressedEvent(static_cast<KeyCode>(_key), 0));
 			return;
 		}
 
 		if (_action == GLFW_RELEASE)
 		{
-			std::cout << "KeyReleasedEvent " << _key << std::endl;
 			props->event_callback(new KeyReleasedEvent(static_cast<KeyCode>(_key)));
 			return;
 		}
 
 		if (_action == GLFW_REPEAT)
 		{
-			std::cout << "KeyPressedEvent " << _key << std::endl;
 			props->event_callback(new KeyPressedEvent(static_cast<KeyCode>(_key), 1));
 			return;
 		}
@@ -109,14 +106,12 @@ void WindowsWindow::hook_events()
 
 		if (_action == GLFW_PRESS)
 		{
-			std::cout << "MouseButtonPressedEvent " << _key << std::endl;
 			props->event_callback(new MouseButtonPressedEvent(static_cast<MouseCode>(_key)));
 			return;
 		}
 
 		if (_action == GLFW_RELEASE)
 		{
-			std::cout << "MouseButtonReleasedEvent " << _key << std::endl;
 			props->event_callback(new MouseButtonReleasedEvent(static_cast<MouseCode>(_key)));
 			return;
 		}
@@ -130,19 +125,16 @@ void WindowsWindow::hook_events()
         double ny = props->height / 2 - _y;
 
 		props->event_callback(new MouseMovedEvent(nx, ny));
-		std::cout << "MouseMovedEvent (" << nx << ", " << ny << ")" << std::endl;
 	});
 
 	glfwSetScrollCallback(m_window, [](GLFWwindow* _window, double _x, double _y) {
 		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
 		props->event_callback(new MouseScrollEvent(_x, _y));
-		std::cout << "MouseScrollEvent (" << _x << ", " << _y << ")" << std::endl;
 	});
 
 	glfwSetWindowPosCallback(m_window, [](GLFWwindow* _window, int _x, int _y) {
 		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
 		props->event_callback(new WindowMovedEvent(_x, _y));
-		std::cout << "WindowMovedEvent (" << _x << ", " << _y << ")" << std::endl;
 	});
 
 	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* _window, int _x, int _y) {
@@ -152,13 +144,11 @@ void WindowsWindow::hook_events()
         props->height = _y;
 
 		props->event_callback(new WindowResizeEvent(_x, _y));
-		std::cout << "WindowResizeEvent (" << _x << ", " << _y << ")" << std::endl;
 	});
 
 	glfwSetWindowCloseCallback(m_window, [](GLFWwindow* _window) {
 		WindowProperties* props = (WindowProperties*)glfwGetWindowUserPointer(_window);
 		props->event_callback(new WindowCloseEvent());
-		std::cout << "WindowCloseEvent" << std::endl;
 	});
 
 	glfwSetWindowFocusCallback(m_window, [](GLFWwindow* _window, int _action) {
@@ -167,13 +157,11 @@ void WindowsWindow::hook_events()
 		if (_action == GLFW_TRUE)
 		{
 			props->event_callback(new WindowFocusEvent());
-			std::cout << "WindowFocusEvent" << std::endl;
 		}
 
 		if (_action == GLFW_FALSE)
 		{
 			props->event_callback(new WindowLostFocusEvent());
-			std::cout << "WindowLostFocusEvent" << std::endl;
 		}
 	});
 }
