@@ -27,8 +27,6 @@ void ApplicationLayer::on_event(Event& _event)
 	});
 
 	dispatcher.execute<InternalEvent>([this](InternalEvent& _event)->bool {
-		std::cout << "Received Internal Event in ApplicationLayer" << std::endl;
-
 		if (_event.get_type() == InternalEventType::EXIT_APP) {
 			app->shutdown();
 			return true;
@@ -60,12 +58,12 @@ void ApplicationLayer::on_update()
 
 void ApplicationLayer::on_push()
 {
-	std::cout << "Layer Pushed" << std::endl;
+	std::cout << "ApplicationLayer Pushed" << std::endl;
 }
 
 void ApplicationLayer::on_pop()
 {
-	std::cout << "Layer Popped" << std::endl;
+	std::cout << "AppliactionLayer Popped" << std::endl;
 }
 
 bool ApplicationLayer::handle_resize(WindowResizeEvent& _event)

@@ -2,7 +2,6 @@
 
 GameLayer::GameLayer(Application* _app, uint32_t _position)
 	: Layer(_app, _position){
-	std::cout << "GameLayer Constructed" << std::endl;
     tile_view = glm::mat4(1.0f);
     scale_factor = 1.0f;
 

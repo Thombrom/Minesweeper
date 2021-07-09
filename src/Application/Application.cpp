@@ -39,11 +39,6 @@ void Application::event_callback(Event* _event)
 		return false;
 	});
 
-	dispatcher.execute<InternalEvent>([this](InternalEvent& _event)->bool {
-		std::cout << "Regisetered Internal Event" << std::endl;
-		return false;
-	});
-
 	event_stack.push_event(_event);
 	Input::RecordEvent(*_event);
 }
