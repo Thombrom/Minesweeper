@@ -29,7 +29,6 @@ SettingsLayer::SettingsLayer(Application* _app, uint32_t _pos)
 
 SettingsLayer::~SettingsLayer()
 {
-    BorderRect::Destroy(border);
 }
 
 void SettingsLayer::on_push()
@@ -40,6 +39,16 @@ void SettingsLayer::on_push()
 void SettingsLayer::on_pop()
 {
     std::cout << "Settingslayer Popped" << std::endl;
+    BorderRect::Destroy(border);
+    BorderRect::Destroy(divider);
+
+    TextButton::Destroy(menu_btn);
+    TextButton::Destroy(play_btn);
+
+    for (size_t itt = 0; itt < 3; itt++) {
+        Text::Destroy(input[itt].text);
+        TextButton::Destroy(input[itt].button);
+    }
 }
 
 void SettingsLayer::on_event(Event& _event)

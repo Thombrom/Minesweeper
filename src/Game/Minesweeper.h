@@ -41,6 +41,7 @@ public:
     uint32_t get_size_x() { return size_x; }
     uint32_t get_size_y() { return size_y; }
     bool mines_distributed() { return distributed; }
+    int32_t  mines_left();
 
 private:
 	uint32_t clamp(uint32_t _value, uint32_t _min, uint32_t _max);

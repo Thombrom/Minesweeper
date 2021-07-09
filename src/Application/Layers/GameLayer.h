@@ -28,6 +28,7 @@ public:
 private:
     int pixelpos_to_tilepos(glm::vec2 _pos);
     void game_distribute_mines(const glm::vec2& _pos);
+    void update_mine_count();
 
 private:
 	struct TextButton {
@@ -37,6 +38,7 @@ private:
 	
 	// Graphics
 	TextButton  back_button;
+    TextButton  mines_left;
 	BorderRect* game_frame;
 	TilePanel*  game_tiles;
 

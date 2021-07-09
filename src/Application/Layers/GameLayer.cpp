@@ -21,6 +21,15 @@ GameLayer::GameLayer(Application* _app, uint32_t _position)
 	back_button.rect->set_border_color(glm::vec3(0.0f, 1.0f, 0.0f));
 	back_button.text->set_color(glm::vec3(0.0f, 1.0f, 0.0f));
 
+    mines_left = TextButton{
+        BorderRect::Create(glm::vec3(-500.0f, -300.0f, 0.0f), glm::vec2(400.0f, 80.0f)),
+        Text::Create("Mines Left: " + std::to_string(appdata->game_mine_count), FontType::ARIAL),
+    };
+    mines_left.rect->set_inside_color(glm::vec3(0.0f, 0.0f, 0.0f));
+    mines_left.rect->set_border_color(glm::vec3(0.0f, 1.0f, 0.0f));
+    mines_left.text->set_color(glm::vec3(0.0f, 1.0f, 0.0f));
+    update_mine_count();
+
 	// Initialize game graphics
 	game_tiles = TilePanel::Create(glm::vec2(appdata->game_size_x, appdata->game_size_y), game.get_values(), game.get_reveal());
 	game_tiles->set_view(glm::vec3(-498.0f, -198.0f, 0.01f), glm::vec2(996.0f, 496.0f));
@@ -33,6 +42,7 @@ GameLayer::GameLayer(Application* _app, uint32_t _position)
 GameLayer::~GameLayer()
 {
 
+
 }
 
 void GameLayer::on_pop() 
@@ -40,6 +50,12 @@ void GameLayer::on_pop()
 	std::cout << "GameLayer Popped" << std::endl;
 	BorderRect::Destroy(back_button.rect);
 	Text::Destroy(back_button.text);
+
+    BorderRect::Destroy(mines_left.rect);
+    Text::Destroy(mines_left.text);
+
+    BorderRect::Destroy(game_frame);
+    TilePanel::Destroy(game_tiles);
 }
 
 void GameLayer::on_push()
@@ -70,8 +86,10 @@ void GameLayer::on_event(Event& _event)
             uint32_t pos_x = res % game.get_size_x();
             uint32_t pos_y = (res - pos_x) / game.get_size_x();
 
-            if (e.get_mouse_code() == MouseCode::Button1 && game.get_reveal_state(pos_x, pos_y) != 2)
+            if (e.get_mouse_code() == MouseCode::Button1 && game.get_reveal_state(pos_x, pos_y) != 2) {
                 game.mark(pos_x, pos_y);
+                update_mine_count();
+            }
 
             if (e.get_mouse_code() == MouseCode::Button0 && game.get_reveal_state(pos_x, pos_y) == 0)
             {
@@ -148,6 +166,9 @@ void GameLayer::on_update()
 	glm::mat4 view = app->get_window()->get_orthographic();
 	back_button.rect->draw(view);
 	back_button.text->draw(view);
+    mines_left.rect->draw(view);
+    mines_left.text->draw(view);
+
     game_frame->draw(view);
 
 
@@ -179,4 +200,11 @@ void GameLayer::game_distribute_mines(const glm::vec2& _pos)
         game.distribute_mines((uint32_t)_pos.x, (uint32_t)_pos.y);
         game_tiles->buffer_value_data();
     }
+}
+
+void GameLayer::update_mine_count()
+{
+    std::string text = "Mines left: " + std::to_string(game.mines_left());
+    mines_left.text->set_value(text);
+    mines_left.text->set_center(glm::vec3(-320.0f, -260.0f, 0.01f));
 }

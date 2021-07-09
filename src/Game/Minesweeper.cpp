@@ -171,3 +171,15 @@ void MineSweeper::draw()
 			std::cout << "_";
 	}
 }
+
+int32_t MineSweeper::mines_left()
+{
+    int32_t mines_left = num_mines;
+    for (size_t itt = 0; itt < size_x * size_y; itt++)
+    {
+        if (board_revelations[itt] == 1)
+            mines_left -= 1;
+    }
+
+    return mines_left;
+}
