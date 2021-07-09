@@ -24,6 +24,7 @@ public:
     void set_rotation(float _rot);
     void set_scale(const glm::vec2& _scale);
     void set_color(const glm::vec3& _color);
+    void set_value(const std::string& _str);
 
     void draw(const glm::mat4& _view) override;
 

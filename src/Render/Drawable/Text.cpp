@@ -136,6 +136,11 @@ void Text::set_color(const glm::vec3& _color)
     m_color = _color;
 }
 
+void Text::set_value(const std::string& _str)
+{
+    m_text =_str;
+}
+
 void Text::calculate_transform()
 {
     m_transform = glm::mat4(1.0f);

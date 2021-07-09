@@ -18,6 +18,7 @@ public:
 
     void set_inside_color_hover(const glm::vec3& _color) { m_inside_color_hover = _color; }
     void set_text_color_hover(const glm::vec3& _color) { m_text_color_hover = _color; }
+    void set_text(const std::string& _str) { m_text->set_value(_str); }
 
     void draw(const glm::mat4& _view);
 

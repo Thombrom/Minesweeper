@@ -10,6 +10,9 @@
 #include "Render/Drawable/TextButton.h"
 
 
+#define GAME_MAX_WIDTH 100
+#define GAME_MAX_HEIGHT 100
+
 class SettingsLayer : public Layer
 {
 public:
@@ -32,6 +35,7 @@ private:
 
     TextButton* menu_btn;
     TextButton* play_btn;
-    Text*       message;
+
     BorderRect* border;
+    BorderRect* divider;
 };
