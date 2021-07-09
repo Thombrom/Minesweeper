@@ -3,6 +3,8 @@
 GameLayer::GameLayer(Application* _app, uint32_t _position)
 	: Layer(_app, _position){
 	std::cout << "GameLayer Constructed" << std::endl;
+    tile_view = glm::mat4(1.0f);
+    scale_factor = 1.0f;
 
 	// Retrieve appdata
 	ApplicationData* appdata = (ApplicationData*)app->get_data();
@@ -65,8 +67,10 @@ void GameLayer::on_event(Event& _event)
             if (res == -1)
                 return false;
 
+            std::cout << "Position: " << res << std::endl;
             uint32_t pos_x = res % game.get_size_x();
-            uint32_t pos_y = (res - pos_x) / game.get_size_y();
+            uint32_t pos_y = (res - pos_x) / game.get_size_x();
+            std::cout << "Translates to: " << pos_x << ", " << pos_y << " using " << game.get_size_x() << ", " << game.get_size_y() << std::endl;
 
             if (e.get_mouse_code() == MouseCode::Button1 && game.get_reveal_state(pos_x, pos_y) != 2)
             {
@@ -106,6 +110,29 @@ void GameLayer::on_event(Event& _event)
 
         return false;
     });
+
+    dispatcher.execute<MouseScrollEvent>([this](MouseScrollEvent& _event)->bool {
+        if (!game_frame->mouse_inside())
+            return false;
+
+        // Horizontal Scrolling
+        if (Input::Key(KeyCode::RightShift) || Input::Key(KeyCode::LeftShift)) {
+            tile_view = glm::translate(tile_view, glm::vec3(_event.get_y_offset() * 5 * 1 / scale_factor, 0.0f, 0.0f));
+            return true;
+        }
+
+        // Scaling
+        if (Input::Key(KeyCode::RightControl) || Input::Key(KeyCode::LeftControl)) {
+            float factor = _event.get_y_offset() < 0 ? 1 / 1.1 : 1.1;
+            scale_factor *= factor;
+            tile_view = glm::scale(tile_view, glm::vec3(factor));
+            return true;
+        }
+
+        // Vertical Scrolling
+        tile_view = glm::translate(tile_view, glm::vec3(0.0f, _event.get_y_offset() * 5 * 1 / scale_factor, 0.0f));
+        return true;
+    });
 }
 
 void GameLayer::on_update()
@@ -132,9 +159,7 @@ void GameLayer::on_update()
 
 
     // Draw Tiles
-    glm::mat4 trans = glm::mat4(1);
-    trans = glm::translate(trans, glm::vec3(0, 0, 0));
-	game_tiles->draw(trans);
+	game_tiles->draw(tile_view);
 }
 
 int GameLayer::pixelpos_to_tilepos(glm::vec2 _pos) 
@@ -145,8 +170,9 @@ int GameLayer::pixelpos_to_tilepos(glm::vec2 _pos)
 
     glm::mat4 transform = glm::mat4(1.0f);
     transform = glm::translate(transform, glm::vec3(26 * board_size.x, 26 * board_size.y, 0.0f));
-    transform = glm::translate(transform, glm::vec3(0.0f, -1 * yoffset, 0.0f));
-    glm::vec4 new_pos = transform * glm::vec4(_pos.x, _pos.y, 0.0f, 1.0f);
+    //transform = glm::translate(transform, glm::vec3(0.0f, -1 * yoffset, 0.0f));
+    glm::vec4 new_pos = transform * glm::inverse(tile_view) * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1 * yoffset, 0.0f)) * glm::vec4(_pos.x, _pos.y, 0.0f, 1.0f);
+    std::cout << "New Position: " << new_pos.x << ", " << new_pos.y << std::endl;
 
     // Check bounds
     if (new_pos.x < 0 || new_pos.x > board_size.x * 52 || new_pos.y < 0 || new_pos.y > board_size.y * 52)

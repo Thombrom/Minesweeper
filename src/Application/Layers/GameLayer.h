@@ -41,6 +41,8 @@ private:
 	TilePanel*  game_tiles;
 
 	// Game
+    glm::mat4 tile_view;
+    float scale_factor;
 	MineSweeper game;
 };
 
