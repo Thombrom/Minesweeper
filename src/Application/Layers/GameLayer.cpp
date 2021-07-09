@@ -67,35 +67,25 @@ void GameLayer::on_event(Event& _event)
             if (res == -1)
                 return false;
 
-            std::cout << "Position: " << res << std::endl;
             uint32_t pos_x = res % game.get_size_x();
             uint32_t pos_y = (res - pos_x) / game.get_size_x();
-            std::cout << "Translates to: " << pos_x << ", " << pos_y << " using " << game.get_size_x() << ", " << game.get_size_y() << std::endl;
 
             if (e.get_mouse_code() == MouseCode::Button1 && game.get_reveal_state(pos_x, pos_y) != 2)
-            {
-                std::cout << "Button 1 Pressed on " << res << " marking it as flag" << std::endl;
                 game.mark(pos_x, pos_y);
-            }
 
             if (e.get_mouse_code() == MouseCode::Button0 && game.get_reveal_state(pos_x, pos_y) == 0)
             {
                 game_distribute_mines(glm::vec2(pos_x, pos_y));
-                std::cout << "Button 0 Pressed on " << res << " revealing the value" << std::endl;
                 game.reveal(pos_x, pos_y);
             }
 
             game_tiles->reload_state();
 
-            if (game.get_state() == SweeperState::WON) {
-                std::cout << "GAME WON - Sending event" << std::endl;
+            if (game.get_state() == SweeperState::WON)
                 app->event_callback(new InternalEvent(InternalEventType::GAME_END, (void*)1));
-            }
 
-            if (game.get_state() == SweeperState::LOST) {
-                std::cout << "GAME LOST - Sending event" << std::endl;
+            if (game.get_state() == SweeperState::LOST)
                 app->event_callback(new InternalEvent(InternalEventType::GAME_END, (void*)2));
-            }
 
             return true;
         });
@@ -172,7 +162,6 @@ int GameLayer::pixelpos_to_tilepos(glm::vec2 _pos)
     transform = glm::translate(transform, glm::vec3(26 * board_size.x, 26 * board_size.y, 0.0f));
     //transform = glm::translate(transform, glm::vec3(0.0f, -1 * yoffset, 0.0f));
     glm::vec4 new_pos = transform * glm::inverse(tile_view) * glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1 * yoffset, 0.0f)) * glm::vec4(_pos.x, _pos.y, 0.0f, 1.0f);
-    std::cout << "New Position: " << new_pos.x << ", " << new_pos.y << std::endl;
 
     // Check bounds
     if (new_pos.x < 0 || new_pos.x > board_size.x * 52 || new_pos.y < 0 || new_pos.y > board_size.y * 52)
