@@ -79,6 +79,9 @@ void GameLayer::on_event(Event& _event)
                 game.reveal(pos_x, pos_y);
             }
 
+            if (e.get_mouse_code() == MouseCode::Button2 && game.get_reveal_state(pos_x, pos_y) == 2)
+                game.splash_reveal(pos_x, pos_y);
+
             game_tiles->reload_state();
 
             if (game.get_state() == SweeperState::WON)

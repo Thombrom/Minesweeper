@@ -30,6 +30,7 @@ public:
 	void draw();
 
 	void reveal(uint32_t _x, uint32_t _y);
+    void splash_reveal(uint32_t _x, uint32_t _y);
     void mark(uint32_t _x, uint32_t _y);
     uint8_t get_reveal_state(uint32_t _x, uint32_t _y) { return board_revelations[_y * size_x + _x]; }
 	SweeperState get_state();

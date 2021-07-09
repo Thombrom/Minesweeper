@@ -45,6 +45,38 @@ void MineSweeper::reveal(uint32_t _x, uint32_t _y)
 	reveal(_x + 1, _y - 1); reveal(_x + 1, _y + 0); reveal(_x + 1, _y + 1);
 }
 
+void MineSweeper::splash_reveal(uint32_t _x, uint32_t _y) 
+{
+	if (_x >= size_x || _y >= size_y)
+		return;	// Out of bounds
+
+    if (board_revelations[_y * size_x + _x] != 2)
+        return; // Not revealed
+
+    // Check that it has been correctly marked
+    uint32_t markings = 0;
+    for (int ittx = -1; ittx <= 1; ittx++) {
+        for (int itty = -1; itty <= 1; itty++) {
+            uint32_t nx = _x + ittx;
+            uint32_t ny = _y + itty;
+
+            if (nx >= size_x || ny >= size_y)
+                continue;   // Not on board
+
+            if (board_revelations[ny * size_x + nx] == 1)
+                markings++;
+        }
+    }
+
+    if (markings != board_values[_y * size_x + _x])
+        return; // Invalid marking, we abort
+
+    // We reveal all surrounding mines
+	reveal(_x - 1, _y - 1); reveal(_x - 1, _y + 0); reveal(_x - 1, _y + 1);
+	reveal(_x + 0, _y - 1); reveal(_x + 0, _y + 0); reveal(_x + 0, _y + 1);
+	reveal(_x + 1, _y - 1); reveal(_x + 1, _y + 0); reveal(_x + 1, _y + 1);
+}
+
 void MineSweeper::mark(uint32_t _x, uint32_t _y) {
     uint8_t* pos = board_revelations + _y * size_x + _x;
     *pos = *pos == 1 ? 0 : 1;
@@ -52,7 +84,6 @@ void MineSweeper::mark(uint32_t _x, uint32_t _y) {
 
 void MineSweeper::distribute_mines(uint32_t _x, uint32_t _y)
 {
-    std::cout << "Distributing Mines: " << _x << " - " << _y << std::endl;
 	if (num_mines > size_x * size_y - 9)
 		return;	// Failsave for infinite loop
 
